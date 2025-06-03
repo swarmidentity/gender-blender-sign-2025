@@ -1,6 +1,8 @@
 #include "AudioTools.h"
 #include "BluetoothA2DPSink.h"
 
+// From: https://github.com/pschatzmann/ESP32-A2DP/
+
 AnalogAudioStream out;
 BluetoothA2DPSink a2dp_sink(out);
 
