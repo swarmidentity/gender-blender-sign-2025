@@ -22,15 +22,17 @@ void setup() {
 }
 
 void loop() {
-  pixels.clear();
-
-
-static uint8_t rainbowHue = 0;
+    //pixels.clear();
+    static uint8_t rainbowHue = 0;
     rainbowHue++; // Animate the rainbow
+    if (rainbowHue == 100) {
+      rainbowHue = 0;
+    }
+    
 
     // Rainbow on 0-99
     for (int i = 0; i < 100; i++) {
-      pixels.setPixelColor(i,pixels.ColorHSV(rainbowHue + (i * 255 / 100)));
+      pixels.setPixelColor(i,pixels.ColorHSV((rainbowHue + i )  * ( 65536/100) ));
     }
 
     // Trans flag on 100-199
@@ -51,7 +53,7 @@ static uint8_t rainbowHue = 0;
 
     // Rainbow on 200-299
     for (int i = 200; i < 300; i++) {
-      pixels.setPixelColor(i,pixels.ColorHSV(rainbowHue + ((i-200) * 255 / 100)));
+      pixels.setPixelColor(i,pixels.ColorHSV((rainbowHue + (i-200) )  * ( 65536/100) ));
     }
 
     pixels.show();
