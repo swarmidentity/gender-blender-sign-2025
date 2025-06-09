@@ -9,8 +9,8 @@ Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 #define DELAYVAL 20
 
 // Trans flag colors (approximate)
-uint32_t TRANS_BLUE = pixels.Color(91, 206, 250);
-uint32_t TRANS_PINK = pixels.Color(245, 169, 184);
+uint32_t TRANS_BLUE = pixels.Color(1, 97, 138);
+uint32_t TRANS_PINK = pixels.Color(163, 44, 68);
 uint32_t TRANS_WHITE = pixels.Color(255, 255, 255);
 
 void setup() {
