@@ -26,7 +26,8 @@ enum LEDPattern {
     MIXED_RAINBOW_TRANS_FLAG = 2,
     SEPARATE_LETTER_COLORS = 3,
     RAINBOW_IN_EACH_LETTER = 4,
-    STATIC_TRANS_FLAG_IN_EACH_LETTER = 5
+    STATIC_TRANS_FLAG_IN_EACH_LETTER = 5,
+    TRANS_FLAG_ANIMATED = 6,
     // Add more patterns as needed
 };
 
@@ -138,6 +139,9 @@ void switchBetweenLEDControlPatterns() {
     else if (currentPattern == STATIC_TRANS_FLAG_IN_EACH_LETTER) {
         staticTransFlagInEachLetter();
     }
+    else if (currentPattern == TRANS_FLAG_ANIMATED) {
+        animatedTransFlagPattern();
+    }
     else {
         // Default to rainbow if an unknown pattern is selected
         fullRainbowPattern();
@@ -166,6 +170,55 @@ void drawTransFlag(int startPos, int endPos) {
     }
 }
 
+void animatedTransFlagPattern(int startPos, int endPos, uint16_t rainbowHue, uint16_t animationCycleCount) {
+    int length = endPos - startPos;
+    int section = length / 5;
+
+    // HSV base hues for trans flag colors
+    //Blue = 180 to 260
+    //Pink = 280 to 320
+    uint16_t blueBase = (65536 * 220 ) / 360;
+    uint16_t pinkBase = (65536 * 300 ) / 360;   
+    uint16_t blueRange = (uint16_t)((65536 * 80)/360); 
+    uint16_t pinkRange = (uint16_t)((65536 * 40)/360);
+
+    for (int i = startPos; i < endPos; ++i) {
+        int pos = i - startPos;
+        float localPhase = 0.0f;
+        uint32_t color = 0;
+
+        // Use rainbowHue as the animation driver instead of millis()
+        // Offset by pixel for wave
+        localPhase = (float)(((rainbowHue + pos )) * (360.0f/animationCycleCount)) / 90.0f;
+        float s = (sin(localPhase * 2.0f * PI) + 1.0f) / 2.0f;
+
+        uint16_t hue = 255;
+
+        if (pos < section) {
+            // Blue section 1
+            hue = blueBase - blueRange/2 + (uint16_t)(blueRange * s);
+            color = pixels.ColorHSV(hue, 255, 255);
+        } else if (pos < section * 2) {
+            // Pink section 1
+            hue = pinkBase - pinkRange/2 + (uint16_t)(pinkRange * s);
+            color = pixels.ColorHSV(hue, 255, 255);
+        } else if (pos < section * 3) {
+            // White section (no animation)
+            color = pixels.Color(255, 255, 255); // White
+        } else if (pos < section * 4) {
+            // Pink section 2
+            hue = pinkBase - pinkRange/2 + (uint16_t)(pinkRange * s);
+            color = pixels.ColorHSV(hue, 255, 255);
+        } else {
+            // Blue section 2
+            hue = blueBase - blueRange/2 + (uint16_t)(blueRange * s);
+            color = pixels.ColorHSV(hue, 255, 255);
+        }
+        
+        pixels.setPixelColor(i, color);
+    }
+}
+
 void drawRainbowSection(int startPos, int endPos, uint16_t rainbowHue) {
     int sectionLength = endPos - startPos;
     for (int i = startPos; i < endPos; i++) {
@@ -190,6 +243,17 @@ void fullRainbowPattern() {
 
 void staticTransFlagPattern() {
     drawTransFlag(0, NUMPIXELS);
+    pixels.show();
+    delay(DELAYVAL);
+}
+
+void animatedTransFlagPattern() {
+    static uint16_t rainbowHue = 0;
+    rainbowHue++; // Animate the rainbow
+    if (rainbowHue == NUMPIXELS) {
+      rainbowHue = 0;
+    }
+    animatedTransFlagPattern(0, NUMPIXELS, rainbowHue, NUMPIXELS);
     pixels.show();
     delay(DELAYVAL);
 }
