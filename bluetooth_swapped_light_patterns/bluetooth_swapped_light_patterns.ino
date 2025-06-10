@@ -28,6 +28,7 @@ enum LEDPattern {
     RAINBOW_IN_EACH_LETTER = 4,
     STATIC_TRANS_FLAG_IN_EACH_LETTER = 5,
     TRANS_FLAG_ANIMATED = 6,
+    ANIMATED_TRANS_FLAG_IN_EACH_LETTER = 7
     // Add more patterns as needed
 };
 
@@ -141,6 +142,9 @@ void switchBetweenLEDControlPatterns() {
     }
     else if (currentPattern == TRANS_FLAG_ANIMATED) {
         animatedTransFlagPattern();
+    }
+    else if (currentPattern == ANIMATED_TRANS_FLAG_IN_EACH_LETTER) {
+        animatedTransFlagInEachLetter();
     }
     else {
         // Default to rainbow if an unknown pattern is selected
@@ -279,9 +283,7 @@ void mixedRainbowTransFlagPattern() {
 // Sample function to set each letter to a different color
 void setEachLetterToDifferentColor() {
     // Clear all pixels first
-    for (int i = 0; i < NUMPIXELS; ++i) {
-        pixels.setPixelColor(i, pixels.Color(0, 0, 0)); // Set all pixels to black
-    }
+    pixels.clear();
     for (int i = 0; i < LETTER_COUNT; ++i) {
         int start = LETTER_PIXEL_RANGES[i][0];
         int end = LETTER_PIXEL_RANGES[i][1];
@@ -296,6 +298,7 @@ void setEachLetterToDifferentColor() {
 void rainbowInEachLetter() {
     static uint16_t rainbowHue = 0;
     rainbowHue++; // Animate the rainbow
+    pixels.clear(); // Clear all pixels first
     for (int i = 0; i < LETTER_COUNT; ++i) {
         int start = LETTER_PIXEL_RANGES[i][0];
         int end = LETTER_PIXEL_RANGES[i][1];
@@ -312,10 +315,27 @@ void rainbowInEachLetter() {
 
 void staticTransFlagInEachLetter() {
     // For each letter, draw a trans flag in its pixel range
+    pixels.clear();
     for (int i = 0; i < LETTER_COUNT; ++i) {
         int start = LETTER_PIXEL_RANGES[i][0];
         int end = LETTER_PIXEL_RANGES[i][1];
         drawTransFlag(start, end);
+    }
+    pixels.show();
+    delay(DELAYVAL);
+}
+
+void animatedTransFlagInEachLetter() {
+    static uint16_t rainbowHue = 0;
+    rainbowHue++; // Animate the flag
+    if (rainbowHue == NUMPIXELS) {
+      rainbowHue = 0;
+    }
+    pixels.clear();
+    for (int i = 0; i < LETTER_COUNT; ++i) {
+        int start = LETTER_PIXEL_RANGES[i][0];
+        int end = LETTER_PIXEL_RANGES[i][1];
+        animatedTransFlagPattern(start, end, rainbowHue, NUMPIXELS);
     }
     pixels.show();
     delay(DELAYVAL);
