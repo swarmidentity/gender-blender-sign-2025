@@ -29,6 +29,8 @@ enum LEDPattern {
     TRANS_FLAG_STATIC = 1,
     MIXED_RAINBOW_TRANS_FLAG = 2,
     SEPARATE_LETTER_COLORS = 3,
+    RAINBOW_IN_EACH_LETTER = 4,
+    STATIC_TRANS_FLAG_IN_EACH_LETTER = 5
     // Add more patterns as needed
 };
 
@@ -71,7 +73,7 @@ const uint32_t LETTER_COLORS[LETTER_COUNT] = {
     pixels.Color(128, 128, 128),// Gray
     pixels.Color(255, 255, 255),// White
     pixels.Color(128, 64, 0),   // Brown
-    pixels.Color(50, 50, 50)       // Grey
+    pixels.Color(50, 50, 50)       // Dark Grey
 };
 
 
@@ -129,6 +131,16 @@ void switchBetweenLEDControlPatterns() {
     }   
     else if (currentPattern == SEPARATE_LETTER_COLORS) {
         setEachLetterToDifferentColor();
+    }
+    else if (currentPattern == RAINBOW_IN_EACH_LETTER) {
+        rainbowInEachLetter();
+    }
+    else if (currentPattern == STATIC_TRANS_FLAG_IN_EACH_LETTER) {
+        staticTransFlagInEachLetter();
+    }
+    else {
+        // Default to rainbow if an unknown pattern is selected
+        fullRainbowPattern();
     }
 }
 
@@ -212,4 +224,32 @@ void setEachLetterToDifferentColor() {
         }
     }
     pixels.show();
+}
+
+void rainbowInEachLetter() {
+    static uint16_t rainbowHue = 0;
+    rainbowHue++; // Animate the rainbow
+    for (int i = 0; i < LETTER_COUNT; ++i) {
+        int start = LETTER_PIXEL_RANGES[i][0];
+        int end = LETTER_PIXEL_RANGES[i][1];
+        int sectionLength = end - start;
+        for (int j = start; j < end; ++j) {
+            // Each letter gets its own rainbow, animated by rainbowHue
+            pixels.setPixelColor(j, pixels.ColorHSV((int)((rainbowHue + (j - start)) * (65536.0 / sectionLength))));
+        }
+    }
+    pixels.show();
+    delay(DELAYVAL);
+}
+
+
+void staticTransFlagInEachLetter() {
+    // For each letter, draw a trans flag in its pixel range
+    for (int i = 0; i < LETTER_COUNT; ++i) {
+        int start = LETTER_PIXEL_RANGES[i][0];
+        int end = LETTER_PIXEL_RANGES[i][1];
+        drawTransFlag(start, end);
+    }
+    pixels.show();
+    delay(DELAYVAL);
 }
