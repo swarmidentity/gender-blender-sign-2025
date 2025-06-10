@@ -1,10 +1,6 @@
-// This example code is in the Public Domain (or CC0 licensed, at your option.)
-// By Evandro Copercini - 2018
-//
-// This example creates a bridge between Serial and Classical Bluetooth (SPP)
-// and also demonstrate that SerialBT have the same functionalities of a normal Serial
-// Note: Pairing is authenticated automatically by this device
-
+/***************************************************************************** 
+ * GenderBlender - Bluetooth Swapped Light Patterns  *
+ *****************************************************************************/
 #include "BluetoothSerial.h"
 #include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
@@ -91,6 +87,10 @@ LEDPattern currentPattern = RAINBOW;
 
 BluetoothSerial SerialBT;
 
+/***************************************************************************** 
+ * Setup, loop and utility functions *
+ *****************************************************************************/
+
 void setup() {
   //Serial.begin(115200);
   SerialBT.begin(device_name);  //Bluetooth device name
@@ -144,22 +144,9 @@ void switchBetweenLEDControlPatterns() {
     }
 }
 
-void fullRainbowPattern() {
-    static uint16_t rainbowHue = 0;
-    rainbowHue++; // Animate the rainbow
-    if (rainbowHue == NUMPIXELS) {
-      rainbowHue = 0;
-    }
-    drawRainbowSection(0, NUMPIXELS, rainbowHue); 
-    pixels.show();
-    delay(DELAYVAL/3);
-}
-
-void staticTransFlagPattern() {
-    drawTransFlag(0, NUMPIXELS);
-    pixels.show();
-    delay(DELAYVAL);
-}
+/***************************************************************************** 
+ * Utility functions for drawing patterns *
+ *****************************************************************************/
 
 void drawTransFlag(int startPos, int endPos) {
     int length = endPos - startPos;
@@ -186,25 +173,41 @@ void drawRainbowSection(int startPos, int endPos, uint16_t rainbowHue) {
     }
 }
 
+/***************************************************************************** 
+ * LED control patterns *
+ *****************************************************************************/
+
+void fullRainbowPattern() {
+    static uint16_t rainbowHue = 0;
+    rainbowHue++; // Animate the rainbow
+    if (rainbowHue == NUMPIXELS) {
+      rainbowHue = 0;
+    }
+    drawRainbowSection(0, NUMPIXELS, rainbowHue); 
+    pixels.show();
+    delay(DELAYVAL/3);
+}
+
+void staticTransFlagPattern() {
+    drawTransFlag(0, NUMPIXELS);
+    pixels.show();
+    delay(DELAYVAL);
+}
+
 void mixedRainbowTransFlagPattern() {
     static uint16_t rainbowHue = 0;
     rainbowHue++; // Animate the rainbow
 
     int sectionLength = NUMPIXELS / 3; 
-
     if (rainbowHue == sectionLength) {
       rainbowHue = 0;
     }
-    
     // Rainbow on 0-99
     drawRainbowSection(0, sectionLength, rainbowHue); 
-
     // Trans flag on 100-199
     drawTransFlag(sectionLength, sectionLength * 2);
-
     // Rainbow on 200-299
     drawRainbowSection(sectionLength * 2, sectionLength * 3, rainbowHue);
-
     pixels.show();
     delay(DELAYVAL);
 }
