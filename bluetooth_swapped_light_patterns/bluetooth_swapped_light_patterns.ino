@@ -52,6 +52,13 @@ const int LETTER_PIXEL_RANGES[LETTER_COUNT][2] = {
     {266, 300}  // R
 };
 
+//Trans flag = 5 colors
+//Nonbinary flag = 4 colors
+//Pan flag = 3 colors
+//Rainbow = 7 colors (or more)
+
+//GEN DE RBL EN DER for trans pattern
+
 // Optional: Character labels for reference
 const char* LETTER_LABELS[LETTER_COUNT] = {
     "G", "E", "N", "D", "E", "R", "B", "L", "E", "N", "D", "E", "R"
@@ -174,52 +181,53 @@ void drawTransFlag(int startPos, int endPos) {
     }
 }
 
-void animatedTransFlagPattern(int startPos, int endPos, uint16_t rainbowHue, uint16_t animationCycleCount) {
+void animateSingleColorHueVariation(int startPos, int endPos, uint16_t baseHue, uint16_t hueRange, uint16_t rainbowHue, uint16_t animationCycleCount) {
     int length = endPos - startPos;
-    int section = length / 5;
-
-    // HSV base hues for trans flag colors
-    //Blue = 180 to 260
-    //Pink = 280 to 320
-    uint16_t blueBase = (65536 * 220 ) / 360;
-    uint16_t pinkBase = (65536 * 300 ) / 360;   
-    uint16_t blueRange = (uint16_t)((65536 * 80)/360); 
-    uint16_t pinkRange = (uint16_t)((65536 * 40)/360);
-
     for (int i = startPos; i < endPos; ++i) {
         int pos = i - startPos;
         float localPhase = 0.0f;
         uint32_t color = 0;
 
-        // Use rainbowHue as the animation driver instead of millis()
+        // Use rainbowHue as the animation driver
         // Offset by pixel for wave
         localPhase = (float)(((rainbowHue + pos )) * (360.0f/animationCycleCount)) / 90.0f;
         float s = (sin(localPhase * 2.0f * PI) + 1.0f) / 2.0f;
 
-        uint16_t hue = 255;
-
-        if (pos < section) {
-            // Blue section 1
-            hue = blueBase - blueRange/2 + (uint16_t)(blueRange * s);
-            color = pixels.ColorHSV(hue, 255, 255);
-        } else if (pos < section * 2) {
-            // Pink section 1
-            hue = pinkBase - pinkRange/2 + (uint16_t)(pinkRange * s);
-            color = pixels.ColorHSV(hue, 255, 255);
-        } else if (pos < section * 3) {
-            // White section (no animation)
-            color = pixels.Color(255, 255, 255); // White
-        } else if (pos < section * 4) {
-            // Pink section 2
-            hue = pinkBase - pinkRange/2 + (uint16_t)(pinkRange * s);
-            color = pixels.ColorHSV(hue, 255, 255);
-        } else {
-            // Blue section 2
-            hue = blueBase - blueRange/2 + (uint16_t)(blueRange * s);
-            color = pixels.ColorHSV(hue, 255, 255);
-        }
+        uint16_t hue = baseHue - hueRange/2 + (uint16_t)(hueRange * s);
+        color = pixels.ColorHSV(hue, 255, 255);
         
         pixels.setPixelColor(i, color);
+    }
+}
+
+void animatedTransFlagPattern(int startPos, int endPos, uint16_t rainbowHue, uint16_t animationCycleCount) {
+    int length = endPos - startPos;
+    int section = length / 5;
+
+    // HSV base hues for trans flag colors
+    //Blue = 180 to 250
+    //Pink = 280 to 320
+    uint16_t blueBase = (65536 * 215 ) / 360;
+    uint16_t pinkBase = (65536 * 300 ) / 360;   
+    uint16_t blueRange = (uint16_t)((65536 * 70)/360); 
+    uint16_t pinkRange = (uint16_t)((65536 * 40)/360);
+
+    for(int j = 0; j < 5; ++j) {
+        // Animate each section of the trans flag
+        int sectionStart = startPos + j * section;
+        int sectionEnd = (j == 4) ? endPos : sectionStart + section; // Last section goes to endPos
+        if (j == 0 || j == 4) {
+            // Blue sections
+            animateSingleColorHueVariation(sectionStart, sectionEnd, blueBase, blueRange, rainbowHue, animationCycleCount);
+        } else if (j == 1 || j == 3) {
+            // Pink sections
+            animateSingleColorHueVariation(sectionStart, sectionEnd, pinkBase, pinkRange, rainbowHue, animationCycleCount);
+        } else {
+            // White section (no animation)
+            for (int i = sectionStart; i < sectionEnd; ++i) {
+                pixels.setPixelColor(i, pixels.Color(255, 255, 255)); // White
+            }
+        }
     }
 }
 
