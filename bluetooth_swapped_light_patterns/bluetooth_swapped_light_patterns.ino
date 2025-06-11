@@ -136,6 +136,10 @@ uint16_t ASEXUAL_PURPLE_HUE_RANGE = (uint16_t)((65536 * 20)/360);
 //Green = 90 to 150
 uint16_t AROMANTIC_GREEN_HUE_BASE = (65536 * 120 ) / 360;
 uint16_t AROMANTIC_GREEN_HUE_RANGE = (uint16_t)((65536 * 60)/360);
+uint8_t AROMANTIC_LIGHT_GREEN_VALUE_BASE = 255;
+uint8_t AROMANTIC_LIGHT_GREEN_VALUE_RANGE = 0; // Light Green is always 255
+uint8_t AROMANTIC_DARK_GREEN_VALUE_BASE = 127; // Dark Green
+uint8_t AROMANTIC_DARK_GREEN_VALUE_RANGE = 0; // Dark Green is always 50
 
 //Black Pride Flag (Saturation instead of Hue, all in percents of 255)
 //Black = 0 to 20
@@ -144,13 +148,14 @@ uint16_t AROMANTIC_GREEN_HUE_RANGE = (uint16_t)((65536 * 60)/360);
 //Hue = 28, Saturation = 100
 //Light Brown = 80 to 100
 //Hue = 25, Saturation = 50
-uint8_t BLACK_PRIDE_BLACK_SATURATION_BASE = 25; 
-uint8_t BLACK_PRIDE_DARK_BROWN_SATURATION_BASE = 75;
-uint8_t BLACK_PRIDE_MEDIUM_BROWN_SATURATION_BASE = 125;
-uint8_t BLACK_PRIDE_LIGHT_BROWN_SATURATION_BASE = 230;
-uint8_t BLACK_PRIDE_BLACK_SATURATION_RANGE = 20;
-uint8_t BLACK_PRIDE_DARK_BROWN_SATURATION_RANGE = 20;
-uint8_t BLACK_PRIDE_MEDIUM_BROWN_SATURATION_RANGE = 20;
+uint8_t BLACK_PRIDE_BLACK_VALUE_BASE = 25; 
+uint8_t BLACK_PRIDE_DARK_BROWN_VALUE_BASE = 75;
+uint8_t BLACK_PRIDE_MEDIUM_BROWN_VALUE_BASE = 125;
+uint8_t BLACK_PRIDE_LIGHT_BROWN_VALUE_BASE = 230;
+uint8_t BLACK_PRIDE_BLACK_VALUE_RANGE = 20;
+uint8_t BLACK_PRIDE_DARK_BROWN_VALUE_RANGE = 20;
+uint8_t BLACK_PRIDE_MEDIUM_BROWN_VALUE_RANGE = 20;
+uint8_t BLACK_PRIDE_LIGHT_BROWN_VALUE_RANGE = 20;
 uint16_t BLACK_PRIDE_DARK_HUE = (65536 * 28 ) / 360; // Dark Brown
 uint16_t BLACK_PRIDE_LIGHT_HUE = (65536 * 25 ) / 360; // Medium Brown
 uint16_t BLACK_PRIDE_DARK_SATURATION = 255;
@@ -176,7 +181,20 @@ enum LEDPattern {
     RAINBOW_IN_EACH_LETTER = 4,
     STATIC_TRANS_FLAG_IN_EACH_LETTER = 5,
     TRANS_FLAG_ANIMATED = 6,
-    ANIMATED_TRANS_FLAG_IN_EACH_LETTER = 7
+    ANIMATED_TRANS_FLAG_IN_EACH_LETTER = 7,
+    NONBINARY_FLAG_ANIMATED = 8,
+    PAN_FLAG_ANIMATED = 9,
+    BISEXUAL_FLAG_ANIMATED = 10,
+    LESBIAN_FLAG_ANIMATED = 11,
+    GENDERQUEER_FLAG_ANIMATED = 12,
+    GENDERFLUID_FLAG_ANIMATED = 13,
+    AGENDER_FLAG_ANIMATED = 14,
+    INTERSEX_FLAG_ANIMATED = 15,
+    POLYSEXUAL_FLAG_ANIMATED = 16,
+    ASEXUAL_FLAG_ANIMATED = 17,
+    AROMANTIC_FLAG_ANIMATED = 18,
+    BLACK_PRIDE_FLAG_ANIMATED = 19,
+    SEPARATE_FLAG_PER_LETTER = 20,
     // Add more patterns as needed
 };
 
@@ -263,8 +281,6 @@ void setup() {
 void loop() {
     checkForNewBluetoothCommands();
     switchBetweenLEDControlPatterns();
-  
-  delay(DELAYVAL);
 }
 
 void checkForNewBluetoothCommands() {
@@ -295,12 +311,26 @@ void switchBetweenLEDControlPatterns() {
     else if (currentPattern == STATIC_TRANS_FLAG_IN_EACH_LETTER) {
         staticTransFlagInEachLetter();
     }
-    else if (currentPattern == TRANS_FLAG_ANIMATED) {
-        animatedTransFlagPattern();
+    else if ((currentPattern == TRANS_FLAG_ANIMATED) 
+    | (currentPattern == NONBINARY_FLAG_ANIMATED)
+    || (currentPattern == PAN_FLAG_ANIMATED)
+    || (currentPattern == BISEXUAL_FLAG_ANIMATED)
+    || (currentPattern == LESBIAN_FLAG_ANIMATED)    
+    || (currentPattern == GENDERQUEER_FLAG_ANIMATED)
+    || (currentPattern == GENDERFLUID_FLAG_ANIMATED)
+    || (currentPattern == AGENDER_FLAG_ANIMATED)
+    || (currentPattern == INTERSEX_FLAG_ANIMATED)
+    || (currentPattern == POLYSEXUAL_FLAG_ANIMATED)
+    || (currentPattern == ASEXUAL_FLAG_ANIMATED)
+    || (currentPattern == AROMANTIC_FLAG_ANIMATED)
+    || (currentPattern == BLACK_PRIDE_FLAG_ANIMATED))
+    {
+        animateSinglePrideFlag();
     }
     else if (currentPattern == ANIMATED_TRANS_FLAG_IN_EACH_LETTER) {
         animatedTransFlagInEachLetter();
     }
+    
     else {
         // Default to rainbow if an unknown pattern is selected
         fullRainbowPattern();
@@ -353,33 +383,26 @@ void animateSingleColorHueSaturationValueVariation(int startPos, int endPos,
     }
 }
 
-void animatedTransFlagPattern(int startPos, int endPos, uint16_t animationIndex, uint16_t animationCycleCount) {
+void animatedStripeFlagPattern(
+    int startPos, int endPos, uint16_t animationIndex, uint16_t animationCycleCount,
+    const uint16_t* hueBase, const uint16_t* hueRange,
+    const uint8_t* satBase, const uint8_t* satRange,
+    const uint8_t* valBase, const uint8_t* valRange,
+    int stripeCount
+) {
     int length = endPos - startPos;
-    int section = length / 5;
+    int section = length / stripeCount;
 
-    for(int j = 0; j < 5; ++j) {
-        // Animate each section of the trans flag
+    for (int j = 0; j < stripeCount; ++j) {
         int sectionStart = startPos + j * section;
-        int sectionEnd = (j == 4) ? endPos : sectionStart + section; // Last section goes to endPos
-        if (j == 0 || j == 4) {
-            // Blue sections
-            animateSingleColorHueSaturationValueVariation(sectionStart, sectionEnd, 
-                TRANS_BLUE_HUE_BASE, TRANS_BLUE_HUE_RANGE,
-                255, 0, 255, 0,
-                 animationIndex, animationCycleCount);
-        } else if (j == 1 || j == 3) {
-            // Pink sections
-            animateSingleColorHueSaturationValueVariation(sectionStart, sectionEnd, 
-                TRANS_PINK_HUE_BASE, TRANS_PINK_HUE_RANGE, 
-                255, 0, 255, 0,
-                animationIndex, animationCycleCount);
-        } else {
-            // White section (no animation)
-            animateSingleColorHueSaturationValueVariation(sectionStart, sectionEnd, 
-                0, 0, 0, 0, 
-                WHITE_VALUE_BASE, WHITE_VALUE_RANGE,
-                animationIndex, animationCycleCount);
-        }
+        int sectionEnd = (j == stripeCount - 1) ? endPos : sectionStart + section; // Last section goes to endPos
+        animateSingleColorHueSaturationValueVariation(
+            sectionStart, sectionEnd,
+            hueBase[j], hueRange[j],
+            satBase[j], satRange[j],
+            valBase[j], valRange[j],
+            animationIndex, animationCycleCount
+        );
     }
 }
 
@@ -390,6 +413,164 @@ void drawRainbowSection(int startPos, int endPos, uint16_t animationIndex) {
     }
 }
 
+/***************************************************************************** 
+ * Specific Pride Flags *
+ *****************************************************************************/
+
+void animateTransFlagPattern(int startPos, int endPos, uint16_t animationIndex, uint16_t animationCycleCount) {
+    const int stripeCount = 5;
+    const uint16_t hueBase[stripeCount] = { TRANS_BLUE_HUE_BASE, TRANS_PINK_HUE_BASE, 0, TRANS_PINK_HUE_BASE, TRANS_BLUE_HUE_BASE };
+    const uint16_t hueRange[stripeCount] = { TRANS_BLUE_HUE_RANGE, TRANS_PINK_HUE_RANGE, 0, TRANS_PINK_HUE_RANGE, TRANS_BLUE_HUE_RANGE };
+    const uint8_t satBase[stripeCount] = { 255, 255, 0, 255, 255 };
+    const uint8_t satRange[stripeCount] = { 0, 0, 0, 0, 0 };
+    const uint8_t valBase[stripeCount] = { 255, 255, WHITE_VALUE_BASE, 255, 255 };
+    const uint8_t valRange[stripeCount] = { 0, 0, WHITE_VALUE_RANGE, 0, 0 };
+    animatedStripeFlagPattern(startPos, endPos, animationIndex, animationCycleCount, hueBase, hueRange, satBase, satRange, valBase, valRange, stripeCount);
+}
+
+void animateNonbinaryFlagPattern(int startPos, int endPos, uint16_t animationIndex, uint16_t animationCycleCount) {
+    const int stripeCount = 4;
+    const uint16_t hueBase[stripeCount] = { NONBINARY_YELLOW_HUE_BASE, 0, NONBINARY_PURPLE_HUE_BASE, 0 };
+    const uint16_t hueRange[stripeCount] = { NONBINARY_YELLOW_HUE_RANGE, 0, NONBINARY_PURPLE_HUE_RANGE, 0 };
+    const uint8_t satBase[stripeCount] = { 255, 0, 255, 0 };
+    const uint8_t satRange[stripeCount] = { 0, 0, 0, 0 };
+    const uint8_t valBase[stripeCount] = { 255, WHITE_VALUE_BASE, 255, BLACK_VALUE_BASE };
+    const uint8_t valRange[stripeCount] = { 0, WHITE_VALUE_RANGE, 0, BLACK_VALUE_RANGE };
+    animatedStripeFlagPattern(startPos, endPos, animationIndex, animationCycleCount, hueBase, hueRange, satBase, satRange, valBase, valRange, stripeCount);
+}
+
+void animatePanFlagPattern(int startPos, int endPos, uint16_t animationIndex, uint16_t animationCycleCount) {
+    const int stripeCount = 3;
+    const uint16_t hueBase[stripeCount] = { PAN_PINK_HUE_BASE, PAN_YELLOW_HUE_BASE, PAN_BLUE_HUE_BASE };
+    const uint16_t hueRange[stripeCount] = { PAN_PINK_HUE_RANGE, PAN_YELLOW_HUE_RANGE, PAN_BLUE_HUE_RANGE };
+    const uint8_t satBase[stripeCount] = { 255, 255, 255 };
+    const uint8_t satRange[stripeCount] = { 0, 0, 0 };
+    const uint8_t valBase[stripeCount] = { 255, 255, 255 };
+    const uint8_t valRange[stripeCount] = { 0, 0, 0 };
+    animatedStripeFlagPattern(startPos, endPos, animationIndex, animationCycleCount, hueBase, hueRange, satBase, satRange, valBase, valRange, stripeCount);
+}
+
+void animateBisexualFlagPattern(int startPos, int endPos, uint16_t animationIndex, uint16_t animationCycleCount) {
+    const int stripeCount = 3;
+    const uint16_t hueBase[stripeCount] = { BISEXUAL_PINK_HUE_BASE, BISEXUAL_BLUE_HUE_BASE, BISEXUAL_PURPLE_HUE_BASE };
+    const uint16_t hueRange[stripeCount] = { BISEXUAL_PINK_HUE_RANGE, BISEXUAL_BLUE_HUE_RANGE, BISEXUAL_PURPLE_HUE_RANGE };
+    const uint8_t satBase[stripeCount] = { 255, 255, 255 };
+    const uint8_t satRange[stripeCount] = { 0, 0, 0 };
+    const uint8_t valBase[stripeCount] = { 255, 255, 255 };
+    const uint8_t valRange[stripeCount] = { 0, 0, 0 };
+    animatedStripeFlagPattern(startPos, endPos, animationIndex, animationCycleCount, hueBase, hueRange, satBase, satRange, valBase, valRange, stripeCount);
+}
+void animateLesbianFlagPattern(int startPos, int endPos, uint16_t animationIndex, uint16_t animationCycleCount) {
+    const int stripeCount = 7;
+    const uint16_t hueBase[stripeCount] = { LESBIAN_RED_HUE_BASE,   
+        LESBIAN_DARK_ORANGE_HUE_BASE,
+        LESBIAN_LIGHT_ORANGE_HUE_BASE,
+        0,
+        LESBIAN_MAGENTA_HUE_BASE,
+        LESBIAN_DARK_PINK_HUE_BASE,
+        LESBIAN_PINK_HUE_BASE };
+    const uint16_t hueRange[stripeCount] = { LESBIAN_RED_HUE_RANGE,
+        LESBIAN_DARK_ORANGE_HUE_RANGE, 
+        LESBIAN_LIGHT_ORANGE_HUE_RANGE,
+        0,
+        LESBIAN_MAGENTA_HUE_RANGE,
+        LESBIAN_DARK_PINK_HUE_RANGE,
+        LESBIAN_PINK_HUE_RANGE };
+    const uint8_t satBase[stripeCount] = { 255, 255, 255, 0, 255, 255, 255 };
+    const uint8_t satRange[stripeCount] = { 0, 0, 0, 0, 0, 0, 0 };
+    const uint8_t valBase[stripeCount] = { 255, 255, WHITE_VALUE_BASE, 255, 255, 255 };
+    const uint8_t valRange[stripeCount] = { 0, 0, 0, WHITE_VALUE_RANGE, 0, 0, 0 };
+    animatedStripeFlagPattern(startPos, endPos, animationIndex, animationCycleCount, hueBase, hueRange, satBase, satRange, valBase, valRange, stripeCount);
+}
+
+void animateGenderqueerFlagPattern(int startPos, int endPos, uint16_t animationIndex, uint16_t animationCycleCount) {
+    const int stripeCount = 3;
+    const uint16_t hueBase[stripeCount] = { GENDERQUEER_GREEN_HUE_BASE, 0, GENDERQUEER_PURPLE_HUE_BASE };
+    const uint16_t hueRange[stripeCount] = { GENDERQUEER_GREEN_HUE_RANGE, 0, GENDERQUEER_PURPLE_HUE_RANGE };
+    const uint8_t satBase[stripeCount] = { 255, 0, 255 };     
+    const uint8_t satRange[stripeCount] = { 0, 0, 0 };
+    const uint8_t valBase[stripeCount] = { 255, WHITE_VALUE_BASE, 255 };
+    const uint8_t valRange[stripeCount] = { 0, WHITE_VALUE_RANGE, 0 };
+    animatedStripeFlagPattern(startPos, endPos, animationIndex, animationCycleCount, hueBase, hueRange, satBase, satRange, valBase, valRange, stripeCount);
+}
+
+void animateGenderfluidFlagPattern(int startPos, int endPos, uint16_t animationIndex, uint16_t animationCycleCount) {
+    const int stripeCount = 5;
+    const uint16_t hueBase[stripeCount] = { GENDERFLUID_PINK_HUE_BASE, 0, GENDERFLUID_PURPLE_HUE_BASE, 0, GENDERFLUID_BLUE_HUE_BASE  };
+    const uint16_t hueRange[stripeCount] = { GENDERFLUID_PINK_HUE_RANGE, 0, GENDERFLUID_PURPLE_HUE_RANGE, 0, GENDERFLUID_BLUE_HUE_RANGE };
+    const uint8_t satBase[stripeCount] = { 255, 0, 255, 0, 255 };
+    const uint8_t satRange[stripeCount] = { 0, 0, 0, 0, 0 };
+    const uint8_t valBase[stripeCount] = { 255, WHITE_VALUE_BASE, 255, BLACK_VALUE_BASE, 255 };
+    const uint8_t valRange[stripeCount] = { 0, WHITE_VALUE_RANGE, 0, BLACK_VALUE_RANGE, 0 };
+    animatedStripeFlagPattern(startPos, endPos, animationIndex, animationCycleCount, hueBase, hueRange, satBase, satRange, valBase, valRange, stripeCount);
+}
+
+void animateAgenderFlagPattern(int startPos, int endPos, uint16_t animationIndex, uint16_t animationCycleCount) {
+    const int stripeCount = 7;
+    const uint16_t hueBase[stripeCount] = { 0, 0, 0, AGENDER_GREEN_HUE_BASE,  0, 0, 0 };
+    const uint16_t hueRange[stripeCount] = { 0, 0, 0, AGENDER_GREEN_HUE_RANGE, 0, 0, 0 };
+    const uint8_t satBase[stripeCount] = { 0, 0, 0, 255, 0, 0, 0 };
+    const uint8_t satRange[stripeCount] = { 0, 0, 0, 0, 0, 0, 0 };
+    const uint8_t valBase[stripeCount] = { BLACK_VALUE_BASE, GRAY_VALUE_BASE, WHITE_VALUE_BASE, 255, WHITE_VALUE_BASE, GRAY_VALUE_BASE, BLACK_VALUE_BASE };
+    const uint8_t valRange[stripeCount] = { BLACK_VALUE_RANGE, GRAY_VALUE_RANGE, WHITE_VALUE_RANGE, 0, WHITE_VALUE_RANGE, GRAY_VALUE_RANGE, BLACK_VALUE_RANGE };
+    animatedStripeFlagPattern(startPos, endPos, animationIndex, animationCycleCount, hueBase, hueRange, satBase, satRange, valBase, valRange, stripeCount);
+}
+
+void animateIntersexFlagPattern(int startPos, int endPos, uint16_t animationIndex, uint16_t animationCycleCount) {
+    const int stripeCount = 3;
+    const uint16_t hueBase[stripeCount] = { INTERSEX_YELLOW_HUE_BASE, INTERSEX_PURPLE_HUE_BASE, INTERSEX_YELLOW_HUE_BASE };
+    const uint16_t hueRange[stripeCount] = { INTERSEX_YELLOW_HUE_RANGE, INTERSEX_PURPLE_HUE_RANGE, INTERSEX_YELLOW_HUE_RANGE };
+    const uint8_t satBase[stripeCount] = { 255, 255, 255 };
+    const uint8_t satRange[stripeCount] = { 0, 0, 0 };
+    const uint8_t valBase[stripeCount] = { 255, 255, 255 };
+    const uint8_t valRange[stripeCount] = { 0, 0, 0 };
+    animatedStripeFlagPattern(startPos, endPos, animationIndex, animationCycleCount, hueBase, hueRange, satBase, satRange, valBase, valRange, stripeCount);     
+}
+
+void animatePolysexualFlagPattern(int startPos, int endPos, uint16_t animationIndex, uint16_t animationCycleCount) {
+    const int stripeCount = 3;
+    const uint16_t hueBase[stripeCount] = { POLYSEXUAL_PINK_HUE_BASE, POLYSEXUAL_GREEN_HUE_BASE, POLYSEXUAL_BLUE_HUE_BASE };
+    const uint16_t hueRange[stripeCount] = { POLYSEXUAL_PINK_HUE_RANGE, POLYSEXUAL_GREEN_HUE_RANGE, POLYSEXUAL_BLUE_HUE_RANGE };
+    const uint8_t satBase[stripeCount] = { 255, 255, 255 };
+    const uint8_t satRange[stripeCount] = { 0, 0, 0 };
+    const uint8_t valBase[stripeCount] = { 255, 255, 255 };
+    const uint8_t valRange[stripeCount] = { 0, 0, 0 };
+    animatedStripeFlagPattern(startPos, endPos, animationIndex, animationCycleCount, hueBase, hueRange, satBase, satRange, valBase, valRange, stripeCount);
+}
+
+void animateAsexualFlagPattern(int startPos, int endPos, uint16_t animationIndex, uint16_t animationCycleCount) {
+    const int stripeCount = 4;
+    const uint16_t hueBase[stripeCount] = { 0, 0, 0, ASEXUAL_PURPLE_HUE_BASE };
+    const uint16_t hueRange[stripeCount] = { 0, 0, 0, ASEXUAL_PURPLE_HUE_RANGE };
+    const uint8_t satBase[stripeCount] = { 0, 0, 0, 255 };
+    const uint8_t satRange[stripeCount] = { 0, 0, 0, 0 };
+    const uint8_t valBase[stripeCount] = { BLACK_VALUE_BASE, GRAY_VALUE_BASE, WHITE_VALUE_BASE, 255 };
+    const uint8_t valRange[stripeCount] = { BLACK_VALUE_RANGE, GRAY_VALUE_RANGE, WHITE_VALUE_RANGE, 0 };
+    animatedStripeFlagPattern(startPos, endPos, animationIndex, animationCycleCount, hueBase, hueRange, satBase, satRange, valBase, valRange, stripeCount);
+}
+
+void animateAromanticFlagPattern(int startPos, int endPos, uint16_t animationIndex, uint16_t animationCycleCount) {
+    const int stripeCount = 5;
+    const uint16_t hueBase[stripeCount] = {AROMANTIC_GREEN_HUE_BASE, AROMANTIC_GREEN_HUE_BASE, 0, 0, 0};
+    const uint16_t hueRange[stripeCount] = {AROMANTIC_GREEN_HUE_RANGE, AROMANTIC_GREEN_HUE_RANGE, 0, 0, 0};
+    const uint8_t satBase[stripeCount] = {255, 255, 0, 0, 0};
+    const uint8_t satRange[stripeCount] = {0, 0, 0, 0, 0};
+    const uint8_t valBase[stripeCount] = {AROMANTIC_LIGHT_GREEN_VALUE_BASE, AROMANTIC_DARK_GREEN_VALUE_BASE, WHITE_VALUE_BASE, GRAY_VALUE_BASE, BLACK_VALUE_BASE};
+    const uint8_t valRange[stripeCount] = {AROMANTIC_LIGHT_GREEN_VALUE_RANGE, AROMANTIC_DARK_GREEN_VALUE_RANGE, WHITE_VALUE_RANGE, GRAY_VALUE_RANGE, BLACK_VALUE_RANGE};
+    animatedStripeFlagPattern(startPos, endPos, animationIndex, animationCycleCount, hueBase, hueRange, satBase, satRange, valBase, valRange, stripeCount); 
+}
+
+void animateBlackPrideFlagPattern(int startPos, int endPos, uint16_t animationIndex, uint16_t animationCycleCount) {
+    const int stripeCount = 4;
+    const uint16_t hueBase[stripeCount] = { BLACK_PRIDE_LIGHT_HUE, BLACK_PRIDE_DARK_HUE, BLACK_PRIDE_DARK_HUE, BLACK_PRIDE_DARK_HUE };
+    const uint16_t hueRange[stripeCount] = { 0,0,0,0 };
+    const uint8_t satBase[stripeCount] = { BLACK_PRIDE_LIGHT_SATURATION, BLACK_PRIDE_DARK_SATURATION, BLACK_PRIDE_DARK_SATURATION, BLACK_PRIDE_DARK_SATURATION };
+    const uint8_t satRange[stripeCount] = { 0, 0, 0, 0 };
+    const uint8_t valBase[stripeCount] = { BLACK_PRIDE_LIGHT_BROWN_VALUE_BASE, BLACK_PRIDE_MEDIUM_BROWN_VALUE_BASE, BLACK_PRIDE_DARK_BROWN_VALUE_BASE , BLACK_PRIDE_BLACK_VALUE_BASE };
+    const uint8_t valRange[stripeCount] = { BLACK_PRIDE_LIGHT_BROWN_VALUE_RANGE, BLACK_PRIDE_MEDIUM_BROWN_VALUE_RANGE, BLACK_PRIDE_DARK_BROWN_VALUE_RANGE, BLACK_PRIDE_BLACK_VALUE_RANGE };
+    animatedStripeFlagPattern(startPos, endPos, animationIndex, animationCycleCount, hueBase, hueRange, satBase, satRange, valBase, valRange, stripeCount);
+}
+    
 /***************************************************************************** 
  * LED control patterns *
  *****************************************************************************/
@@ -411,13 +592,43 @@ void staticTransFlagPattern() {
     delay(DELAYVAL);
 }
 
-void animatedTransFlagPattern() {
+void animateSinglePrideFlag() {
     static uint16_t animationIndex = 0;
     animationIndex++; // Animate the rainbow
     if (animationIndex == NUMPIXELS) {
       animationIndex = 0;
     }
-    animatedTransFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+    if (currentPattern == TRANS_FLAG_ANIMATED) {
+        animateTransFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+    } else if (currentPattern == NONBINARY_FLAG_ANIMATED) {
+        animateNonbinaryFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+    } else if (currentPattern == PAN_FLAG_ANIMATED) {
+        animatePanFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+    } else if (currentPattern == BISEXUAL_FLAG_ANIMATED) {
+        animateBisexualFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+    } else if (currentPattern == LESBIAN_FLAG_ANIMATED) {
+        animateLesbianFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+    } else if (currentPattern == GENDERQUEER_FLAG_ANIMATED) {
+        animateGenderqueerFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+    } else if (currentPattern == GENDERFLUID_FLAG_ANIMATED) {
+        animateGenderfluidFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+    } else if (currentPattern == AGENDER_FLAG_ANIMATED) {
+        animateAgenderFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+    } else if (currentPattern == INTERSEX_FLAG_ANIMATED) {
+        animateIntersexFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+    } else if (currentPattern == POLYSEXUAL_FLAG_ANIMATED) {
+        animatePolysexualFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+    } else if (currentPattern == ASEXUAL_FLAG_ANIMATED) {
+        animateAsexualFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+    } else if (currentPattern == AROMANTIC_FLAG_ANIMATED) {
+        animateAromanticFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+    } else if (currentPattern == BLACK_PRIDE_FLAG_ANIMATED) {
+        animateBlackPrideFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+    } 
+    else {
+        // Default to rainbow if an unknown pattern is selected
+        drawRainbowSection(0, NUMPIXELS, animationIndex);
+    }
     pixels.show();
     delay(DELAYVAL);
 }
@@ -495,7 +706,7 @@ void animatedTransFlagInEachLetter() {
     for (int i = 0; i < LETTER_COUNT; ++i) {
         int start = LETTER_PIXEL_RANGES[i][0];
         int end = LETTER_PIXEL_RANGES[i][1];
-        animatedTransFlagPattern(start, end, animationIndex, NUMPIXELS);
+        animateTransFlagPattern(start, end, animationIndex, NUMPIXELS);
     }
     pixels.show();
     delay(DELAYVAL);
