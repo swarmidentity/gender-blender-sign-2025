@@ -30,10 +30,7 @@ void setCurrentPattern(int patternIndex) {
 }
 
 void switchBetweenLEDControlPatterns() {
-    if (currentPattern == RAINBOW) {
-        fullRainbowPattern();
-    }
-    else if (currentPattern == TRANS_FLAG_STATIC) {
+    if (currentPattern == TRANS_FLAG_STATIC) {
         staticTransFlagPattern();
     }
     else if (currentPattern == MIXED_RAINBOW_TRANS_FLAG) {
@@ -60,7 +57,8 @@ void switchBetweenLEDControlPatterns() {
     || (currentPattern == POLYSEXUAL_FLAG_ANIMATED)
     || (currentPattern == ASEXUAL_FLAG_ANIMATED)
     || (currentPattern == AROMANTIC_FLAG_ANIMATED)
-    || (currentPattern == BLACK_PRIDE_FLAG_ANIMATED))
+    || (currentPattern == BLACK_PRIDE_FLAG_ANIMATED)
+    || (currentPattern == RAINBOW))
     {
         animateSinglePrideFlag();
     }
@@ -70,28 +68,12 @@ void switchBetweenLEDControlPatterns() {
     else if (currentPattern == SEPARATE_FLAG_PER_LETTER) {
         separateFlagPerLetter();
     }
-    
-    else {
-        // Default to rainbow if an unknown pattern is selected
-        fullRainbowPattern();
-    }
 }
 
 
 /***************************************************************************** 
  * LED control patterns *
  *****************************************************************************/
-
-void fullRainbowPattern() {
-    static uint16_t animationIndex = 0;
-    animationIndex++; // Animate the rainbow
-    if (animationIndex == NUMPIXELS) {
-      animationIndex = 0;
-    }
-    drawRainbowSection(0, NUMPIXELS, animationIndex); 
-    pixels.show();
-    delay(DELAYVAL/3);
-}
 
 void staticTransFlagPattern() {
     drawTransFlag(0, NUMPIXELS);
@@ -131,10 +113,12 @@ void animateSinglePrideFlag() {
         animateAromanticFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
     } else if (currentPattern == BLACK_PRIDE_FLAG_ANIMATED) {
         animateBlackPrideFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
-    } 
+    } else if (currentPattern == RAINBOW) {
+        drawRainbowSection(0, NUMPIXELS, animationIndex, NUMPIXELS); 
+    }
     else {
         // Default to rainbow if an unknown pattern is selected
-        drawRainbowSection(0, NUMPIXELS, animationIndex);
+        drawRainbowSection(0, NUMPIXELS, animationIndex, NUMPIXELS);
     }
     pixels.show();
     delay(DELAYVAL);
@@ -149,11 +133,11 @@ void mixedRainbowTransFlagPattern() {
       animationIndex = 0;
     }
     // Rainbow on 0-99
-    drawRainbowSection(0, sectionLength, animationIndex); 
+    drawRainbowSection(0, sectionLength, animationIndex, sectionLength); 
     // Trans flag on 100-199
     drawTransFlag(sectionLength, sectionLength * 2);
     // Rainbow on 200-299
-    drawRainbowSection(sectionLength * 2, sectionLength * 3, animationIndex);
+    drawRainbowSection(sectionLength * 2, sectionLength * 3, animationIndex, sectionLength);
     pixels.show();
     delay(DELAYVAL);
 }
@@ -183,7 +167,7 @@ void rainbowInEachLetter() {
         int sectionLength = end - start;
         for (int j = start; j < end; ++j) {
             // Each letter gets its own rainbow, animated by animationIndex
-            pixels.setPixelColor(j, pixels.ColorHSV((int)((animationIndex + (j - start)) * (65536.0 / sectionLength))));
+            drawRainbowSection(start, end, animationIndex, sectionLength);
         }
     }
     pixels.show();
@@ -235,7 +219,7 @@ void separateFlagPerLetter() {
         } else if (i == 1) {
             animateBlackPrideFlagPattern(start, end, animationIndex, NUMPIXELS);
         } else if (i == 2) {
-            drawRainbowSection(start, end, animationIndex); 
+            drawRainbowSection(start, end, animationIndex, NUMPIXELS); 
         } else if (i == 3) {
             animateBisexualFlagPattern(start, end, animationIndex, NUMPIXELS);
         } else if (i == 4) {

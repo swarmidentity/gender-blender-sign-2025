@@ -64,7 +64,7 @@ void animateLesbianFlagPattern(int startPos, int endPos, uint16_t animationIndex
         LESBIAN_PINK_HUE_RANGE };
     const uint8_t satBase[stripeCount] = { 255, 255, 255, 0, 255, 255, 255 };
     const uint8_t satRange[stripeCount] = { 0, 0, 0, 0, 0, 0, 0 };
-    const uint8_t valBase[stripeCount] = { 255, 255, WHITE_VALUE_BASE, 255, 255, 255 };
+    const uint8_t valBase[stripeCount] = { 255, 255, 255, WHITE_VALUE_BASE, 255, 255, 255 };
     const uint8_t valRange[stripeCount] = { 0, 0, 0, WHITE_VALUE_RANGE, 0, 0, 0 };
     animatedStripeFlagPattern(startPos, endPos, animationIndex, animationCycleCount, hueBase, hueRange, satBase, satRange, valBase, valRange, stripeCount);
 }

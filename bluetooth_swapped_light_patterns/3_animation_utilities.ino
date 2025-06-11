@@ -67,9 +67,9 @@ void animatedStripeFlagPattern(
     }
 }
 
-void drawRainbowSection(int startPos, int endPos, uint16_t animationIndex) {
+void drawRainbowSection(int startPos, int endPos, uint16_t animationIndex, uint16_t animationCycleCount) {
     int sectionLength = endPos - startPos;
     for (int i = startPos; i < endPos; i++) {
-        pixels.setPixelColor(i, pixels.ColorHSV((int)((animationIndex + i - sectionLength/2) * (65536.0 / sectionLength))));
+        pixels.setPixelColor(i, pixels.ColorHSV((int)((animationIndex + i - sectionLength/2) * (65536.0 / animationCycleCount))));
     }
 }
