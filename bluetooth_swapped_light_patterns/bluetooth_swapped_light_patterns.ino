@@ -330,6 +330,9 @@ void switchBetweenLEDControlPatterns() {
     else if (currentPattern == ANIMATED_TRANS_FLAG_IN_EACH_LETTER) {
         animatedTransFlagInEachLetter();
     }
+    else if (currentPattern == SEPARATE_FLAG_PER_LETTER) {
+        separateFlagPerLetter();
+    }
     
     else {
         // Default to rainbow if an unknown pattern is selected
@@ -707,6 +710,49 @@ void animatedTransFlagInEachLetter() {
         int start = LETTER_PIXEL_RANGES[i][0];
         int end = LETTER_PIXEL_RANGES[i][1];
         animateTransFlagPattern(start, end, animationIndex, NUMPIXELS);
+    }
+    pixels.show();
+    delay(DELAYVAL);
+}
+
+void separateFlagPerLetter() {
+    static uint16_t animationIndex = 0;
+    animationIndex++; // Animate the flags
+    if (animationIndex == NUMPIXELS) {
+      animationIndex = 0;
+    }
+    
+    pixels.clear(); // Clear all pixels first
+    for (int i = 0; i < LETTER_COUNT; ++i) {
+        int start = LETTER_PIXEL_RANGES[i][0];
+        int end = LETTER_PIXEL_RANGES[i][1];
+        if (i == 0) {
+            animateTransFlagPattern(start, end, animationIndex, NUMPIXELS);
+        } else if (i == 1) {
+            animateBlackPrideFlagPattern(start, end, animationIndex, NUMPIXELS);
+        } else if (i == 2) {
+            drawRainbowSection(start, end, animationIndex); 
+        } else if (i == 3) {
+            animateBisexualFlagPattern(start, end, animationIndex, NUMPIXELS);
+        } else if (i == 4) {
+            animateLesbianFlagPattern(start, end, animationIndex, NUMPIXELS);
+        } else if (i == 5) {
+            animateGenderqueerFlagPattern(start, end, animationIndex, NUMPIXELS);
+        } else if (i == 6) {
+            animateGenderfluidFlagPattern(start, end, animationIndex, NUMPIXELS);
+        } else if (i == 7) {
+            animateAgenderFlagPattern(start, end, animationIndex, NUMPIXELS);
+        } else if (i == 8) {
+            animateIntersexFlagPattern(start, end, animationIndex, NUMPIXELS);
+        } else if (i == 9) {
+            animatePanFlagPattern(start, end, animationIndex, NUMPIXELS);
+        } else if (i == 10) {
+            animateAsexualFlagPattern(start, end, animationIndex, NUMPIXELS);
+        } else if (i == 11) {
+            animateAromanticFlagPattern(start, end, animationIndex, NUMPIXELS);
+        } else if (i == 12) {
+            animateNonbinaryFlagPattern(start, end, animationIndex, NUMPIXELS);
+        }
     }
     pixels.show();
     delay(DELAYVAL);
