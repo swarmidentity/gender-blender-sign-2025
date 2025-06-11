@@ -68,11 +68,11 @@ uint16_t LESBIAN_DARK_PINK_HUE_RANGE = (uint16_t)((65536 * 10)/360);
 uint16_t LESBIAN_PINK_HUE_RANGE = (uint16_t)((65536 * 20)/360);
 
 // Genderqueer Flag
-//Green = 90 to 150
+//Green = 100 to 140
 //Purple = 260 to 280
 uint16_t GENDERQUEER_GREEN_HUE_BASE = (65536 * 120 ) / 360;
 uint16_t GENDERQUEER_PURPLE_HUE_BASE = (65536 * 270 ) / 360;
-uint16_t GENDERQUEER_GREEN_HUE_RANGE = (uint16_t)((65536 * 60)/360);
+uint16_t GENDERQUEER_GREEN_HUE_RANGE = (uint16_t)((65536 * 40)/360);
 uint16_t GENDERQUEER_PURPLE_HUE_RANGE = (uint16_t)((65536 * 20)/360);
 
 //Genderfluid Flag
@@ -87,9 +87,9 @@ uint16_t GENDERFLUID_BLUE_HUE_RANGE = (uint16_t)((65536 * 60)/360);
 uint16_t GENDERFLUID_PURPLE_HUE_RANGE = (uint16_t)((65536 * 20)/360);
 
 //Agender Flag
-//Green = 90 to 150
+//Green = 100 to 140
 uint16_t AGENDER_GREEN_HUE_BASE = (65536 * 120 ) / 360;
-uint16_t AGENDER_GREEN_HUE_RANGE = (uint16_t)((65536 * 60)/360);
+uint16_t AGENDER_GREEN_HUE_RANGE = (uint16_t)((65536 * 40)/360);
 
 //Intersex Flag
 //Yellow = 50 to 65
@@ -101,24 +101,24 @@ uint16_t INTERSEX_PURPLE_HUE_RANGE = (uint16_t)((65536 * 20)/360);
 
 //Polysexual Flag
 //Pink = 280 to 330
-//Green = 90 to 150
+//Green = 100 to 140
 //Blue = 200 to 260
 uint16_t POLYSEXUAL_PINK_HUE_BASE = (65536 * 310 ) / 360;
 uint16_t POLYSEXUAL_GREEN_HUE_BASE = (65536 * 120 ) / 360;
 uint16_t POLYSEXUAL_BLUE_HUE_BASE = (65536 * 230 ) / 360;
 uint16_t POLYSEXUAL_PINK_HUE_RANGE = (uint16_t)((65536 * 50)/360);
-uint16_t POLYSEXUAL_GREEN_HUE_RANGE = (uint16_t)((65536 * 60)/360);
+uint16_t POLYSEXUAL_GREEN_HUE_RANGE = (uint16_t)((65536 * 40)/360);
 uint16_t POLYSEXUAL_BLUE_HUE_RANGE = (uint16_t)((65536 * 60)/360);
 
 //Asexual Flag
-//Purple = 260 to 280
-uint16_t ASEXUAL_PURPLE_HUE_BASE = (65536 * 270 ) / 360;
-uint16_t ASEXUAL_PURPLE_HUE_RANGE = (uint16_t)((65536 * 20)/360);
+//Purple = 260 to 270
+uint16_t ASEXUAL_PURPLE_HUE_BASE = (65536 * 265 ) / 360;
+uint16_t ASEXUAL_PURPLE_HUE_RANGE = (uint16_t)((65536 * 10)/360);
 
 //Aromantic Flag
-//Green = 90 to 150
+//Green = 100 to 140
 uint16_t AROMANTIC_GREEN_HUE_BASE = (65536 * 120 ) / 360;
-uint16_t AROMANTIC_GREEN_HUE_RANGE = (uint16_t)((65536 * 60)/360);
+uint16_t AROMANTIC_GREEN_HUE_RANGE = (uint16_t)((65536 * 40)/360);
 uint8_t AROMANTIC_LIGHT_GREEN_VALUE_BASE = 255;
 uint8_t AROMANTIC_LIGHT_GREEN_VALUE_RANGE = 0; // Light Green is always 255
 uint8_t AROMANTIC_DARK_GREEN_VALUE_BASE = 127; // Dark Green
@@ -134,11 +134,11 @@ uint8_t AROMANTIC_DARK_GREEN_VALUE_RANGE = 0; // Dark Green is always 50
 uint8_t BLACK_PRIDE_BLACK_VALUE_BASE = 25; 
 uint8_t BLACK_PRIDE_DARK_BROWN_VALUE_BASE = 75;
 uint8_t BLACK_PRIDE_MEDIUM_BROWN_VALUE_BASE = 125;
-uint8_t BLACK_PRIDE_LIGHT_BROWN_VALUE_BASE = 230;
-uint8_t BLACK_PRIDE_BLACK_VALUE_RANGE = 20;
-uint8_t BLACK_PRIDE_DARK_BROWN_VALUE_RANGE = 20;
-uint8_t BLACK_PRIDE_MEDIUM_BROWN_VALUE_RANGE = 20;
-uint8_t BLACK_PRIDE_LIGHT_BROWN_VALUE_RANGE = 20;
+uint8_t BLACK_PRIDE_LIGHT_BROWN_VALUE_BASE = 150;
+uint8_t BLACK_PRIDE_BLACK_VALUE_RANGE = 50;
+uint8_t BLACK_PRIDE_DARK_BROWN_VALUE_RANGE = 75;
+uint8_t BLACK_PRIDE_MEDIUM_BROWN_VALUE_RANGE = 75;
+uint8_t BLACK_PRIDE_LIGHT_BROWN_VALUE_RANGE = 50;
 uint16_t BLACK_PRIDE_DARK_HUE = (65536 * 28 ) / 360; // Dark Brown
 uint16_t BLACK_PRIDE_LIGHT_HUE = (65536 * 25 ) / 360; // Medium Brown
 uint16_t BLACK_PRIDE_DARK_SATURATION = 255;
@@ -149,9 +149,14 @@ uint16_t BLACK_PRIDE_LIGHT_SATURATION = 127;
 //White = 80 to 100
 //Gray = 60 to 80
 //Black = 0 to 40
-uint8_t WHITE_VALUE_BASE = 230; // White
+uint8_t WHITE_VALUE_BASE = 200; // White
 uint8_t GRAY_VALUE_BASE = 150; // Gray
 uint8_t BLACK_VALUE_BASE = 50; // Black
-uint8_t WHITE_VALUE_RANGE = 25; // White
-uint8_t GRAY_VALUE_RANGE = 20; // Gray
-uint8_t BLACK_VALUE_RANGE = 50; // Black
+uint8_t WHITE_VALUE_RANGE = 110; // White
+uint8_t GRAY_VALUE_RANGE = 110; // Gray
+uint8_t BLACK_VALUE_RANGE = 100; // Black
+
+// Use Extra value changes to Base/Range when a color isn't visibly changing
+
+uint8_t EXTRA_POP_VALUE_BASE = 150; 
+uint8_t EXTRA_POP_VALUE_RANGE = 110; 
