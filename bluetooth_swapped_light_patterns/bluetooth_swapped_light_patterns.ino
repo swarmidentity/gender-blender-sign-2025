@@ -20,6 +20,154 @@ uint32_t TRANS_BLUE = pixels.Color(1, 97, 138);
 uint32_t TRANS_PINK = pixels.Color(163, 44, 68);
 uint32_t TRANS_WHITE = pixels.Color(255, 255, 255);
 
+
+/***************************************************************************** 
+ * HSV Color Definitions for Pride Flags * 
+ *****************************************************************************/
+
+//Trans Flag
+//Blue = 180 to 250
+//Pink = 280 to 320
+uint16_t TRANS_BLUE_HUE_BASE = (65536 * 215 ) / 360;
+uint16_t TRANS_PINK_HUE_BASE = (65536 * 300 ) / 360;   
+uint16_t TRANS_BLUE_HUE_RANGE = (uint16_t)((65536 * 70)/360); 
+uint16_t TRANS_PINK_HUE_RANGE = (uint16_t)((65536 * 40)/360);
+
+
+// Nonbinary Flag
+//Yellow = 50 to 65
+//Purple = 265 to 285
+uint16_t NONBINARY_YELLOW_HUE_BASE = (65536 * 57 ) / 360;
+uint16_t NONBINARY_PURPLE_HUE_BASE = (65536 * 275 ) / 360;
+uint16_t NONBINARY_YELLOW_HUE_RANGE = (uint16_t)((65536 * 15)/360);
+uint16_t NONBINARY_PURPLE_HUE_RANGE = (uint16_t)((65536 * 20)/360);
+
+// Pansexual Flag
+//Pink = 290 to 330
+//Yellow = 50 to 65
+//Blue = 200 to 220
+uint16_t PAN_PINK_HUE_BASE = (65536 * 310 ) / 360;
+uint16_t PAN_YELLOW_HUE_BASE = (65536 * 57 ) / 360;
+uint16_t PAN_BLUE_HUE_BASE = (65536 * 210 ) / 360;
+uint16_t PAN_PINK_HUE_RANGE = (uint16_t)((65536 * 20)/360);
+uint16_t PAN_YELLOW_HUE_RANGE = (uint16_t)((65536 * 15)/360);
+uint16_t PAN_BLUE_HUE_RANGE = (uint16_t)((65536 * 20)/360);
+
+// Bisexual Flag
+//Pink = 290 to 330
+//Blue = 200 to 220
+//Purple = 265 to 285
+uint16_t BISEXUAL_PINK_HUE_BASE = (65536 * 310 ) / 360;
+uint16_t BISEXUAL_BLUE_HUE_BASE = (65536 * 210 ) / 360;
+uint16_t BISEXUAL_PURPLE_HUE_BASE = (65536 * 275 ) / 360;
+uint16_t BISEXUAL_PINK_HUE_RANGE = (uint16_t)((65536 * 40)/360);
+uint16_t BISEXUAL_BLUE_HUE_RANGE = (uint16_t)((65536 * 20)/360);
+uint16_t BISEXUAL_PURPLE_HUE_RANGE = (uint16_t)((65536 * 20)/360);
+
+// Lesbian Flag
+//Red = 10 to 20
+//Dark Orange = 20 to 30
+//Light Orange = 30 to 40
+//Magenta = 270 to 290
+//Dark Pink = 290 to 310
+//Pink = 310 to 330
+uint16_t LESBIAN_RED_HUE_BASE = (65536 * 15 ) / 360;
+uint16_t LESBIAN_DARK_ORANGE_HUE_BASE = (65536 * 25 ) / 360;
+uint16_t LESBIAN_LIGHT_ORANGE_HUE_BASE = (65536 * 35 ) / 360;
+uint16_t LESBIAN_MAGENTA_HUE_BASE = (65536 * 280 ) / 360;
+uint16_t LESBIAN_DARK_PINK_HUE_BASE = (65536 * 300 ) / 360;
+uint16_t LESBIAN_PINK_HUE_BASE = (65536 * 320 ) / 360;
+uint16_t LESBIAN_RED_HUE_RANGE = (uint16_t)((65536 * 10)/360);
+uint16_t LESBIAN_DARK_ORANGE_HUE_RANGE = (uint16_t)((65536 * 10)/360);
+uint16_t LESBIAN_LIGHT_ORANGE_HUE_RANGE = (uint16_t)((65536 * 10)/360);
+uint16_t LESBIAN_MAGENTA_HUE_RANGE = (uint16_t)((65536 * 10)/360);
+uint16_t LESBIAN_DARK_PINK_HUE_RANGE = (uint16_t)((65536 * 10)/360);
+uint16_t LESBIAN_PINK_HUE_RANGE = (uint16_t)((65536 * 20)/360);
+
+// Genderqueer Flag
+//Green = 90 to 150
+//Purple = 260 to 280
+uint16_t GENDERQUEER_GREEN_HUE_BASE = (65536 * 120 ) / 360;
+uint16_t GENDERQUEER_PURPLE_HUE_BASE = (65536 * 270 ) / 360;
+uint16_t GENDERQUEER_GREEN_HUE_RANGE = (uint16_t)((65536 * 60)/360);
+uint16_t GENDERQUEER_PURPLE_HUE_RANGE = (uint16_t)((65536 * 20)/360);
+
+//Genderfluid Flag
+//Pink = 300 to 330
+//Blue = 200 to 260
+//Purple = 260 to 280
+uint16_t GENDERFLUID_PINK_HUE_BASE = (65536 * 320 ) / 360;
+uint16_t GENDERFLUID_BLUE_HUE_BASE = (65536 * 230 ) / 360;
+uint16_t GENDERFLUID_PURPLE_HUE_BASE = (65536 * 270 ) / 360;
+uint16_t GENDERFLUID_PINK_HUE_RANGE = (uint16_t)((65536 * 30)/360);
+uint16_t GENDERFLUID_BLUE_HUE_RANGE = (uint16_t)((65536 * 60)/360);
+uint16_t GENDERFLUID_PURPLE_HUE_RANGE = (uint16_t)((65536 * 20)/360);
+
+//Agender Flag
+//Green = 90 to 150
+uint16_t AGENDER_GREEN_HUE_BASE = (65536 * 120 ) / 360;
+uint16_t AGENDER_GREEN_HUE_RANGE = (uint16_t)((65536 * 60)/360);
+
+//Intersex Flag
+//Yellow = 50 to 65
+//Purple = 265 to 285
+uint16_t INTERSEX_YELLOW_HUE_BASE = (65536 * 57 ) / 360;
+uint16_t INTERSEX_PURPLE_HUE_BASE = (65536 * 275 ) / 360;
+uint16_t INTERSEX_YELLOW_HUE_RANGE = (uint16_t)((65536 * 15)/360);
+uint16_t INTERSEX_PURPLE_HUE_RANGE = (uint16_t)((65536 * 20)/360);
+
+//Polysexual Flag
+//Pink = 280 to 330
+//Green = 90 to 150
+//Blue = 200 to 260
+uint16_t POLYSEXUAL_PINK_HUE_BASE = (65536 * 310 ) / 360;
+uint16_t POLYSEXUAL_GREEN_HUE_BASE = (65536 * 120 ) / 360;
+uint16_t POLYSEXUAL_BLUE_HUE_BASE = (65536 * 230 ) / 360;
+uint16_t POLYSEXUAL_PINK_HUE_RANGE = (uint16_t)((65536 * 50)/360);
+uint16_t POLYSEXUAL_GREEN_HUE_RANGE = (uint16_t)((65536 * 60)/360);
+uint16_t POLYSEXUAL_BLUE_HUE_RANGE = (uint16_t)((65536 * 60)/360);
+
+//Asexual Flag
+//Purple = 260 to 280
+uint16_t ASEXUAL_PURPLE_HUE_BASE = (65536 * 270 ) / 360;
+uint16_t ASEXUAL_PURPLE_HUE_RANGE = (uint16_t)((65536 * 20)/360);
+
+//Aromantic Flag
+//Green = 90 to 150
+uint16_t AROMANTIC_GREEN_HUE_BASE = (65536 * 120 ) / 360;
+uint16_t AROMANTIC_GREEN_HUE_RANGE = (uint16_t)((65536 * 60)/360);
+
+//Black Pride Flag (Saturation instead of Hue, all in percents of 255)
+//Black = 0 to 20
+//Dark Brown = 20 to 40
+//Medium Brown = 40 to 60
+//Hue = 28, Saturation = 100
+//Light Brown = 80 to 100
+//Hue = 25, Saturation = 50
+uint8_t BLACK_PRIDE_BLACK_SATURATION_BASE = 25; 
+uint8_t BLACK_PRIDE_DARK_BROWN_SATURATION_BASE = 75;
+uint8_t BLACK_PRIDE_MEDIUM_BROWN_SATURATION_BASE = 125;
+uint8_t BLACK_PRIDE_LIGHT_BROWN_SATURATION_BASE = 230;
+uint8_t BLACK_PRIDE_BLACK_SATURATION_RANGE = 20;
+uint8_t BLACK_PRIDE_DARK_BROWN_SATURATION_RANGE = 20;
+uint8_t BLACK_PRIDE_MEDIUM_BROWN_SATURATION_RANGE = 20;
+uint16_t BLACK_PRIDE_DARK_HUE = (65536 * 28 ) / 360; // Dark Brown
+uint16_t BLACK_PRIDE_LIGHT_HUE = (65536 * 25 ) / 360; // Medium Brown
+uint16_t BLACK_PRIDE_DARK_SATURATION = 255;
+uint16_t BLACK_PRIDE_LIGHT_SATURATION = 127;
+
+
+//White, Gray and Black Colors (Value instead of Hue, all in percents of 255)
+//White = 80 to 100
+//Gray = 60 to 80
+//Black = 0 to 40
+uint8_t WHITE_VALUE_BASE = 230; // White
+uint8_t GRAY_VALUE_BASE = 150; // Gray
+uint8_t BLACK_VALUE_BASE = 50; // Black
+uint8_t WHITE_VALUE_RANGE = 25; // White
+uint8_t GRAY_VALUE_RANGE = 20; // Gray
+uint8_t BLACK_VALUE_RANGE = 50; // Black
+
 enum LEDPattern {
     RAINBOW = 0,
     TRANS_FLAG_STATIC = 1,
@@ -181,36 +329,33 @@ void drawTransFlag(int startPos, int endPos) {
     }
 }
 
-void animateSingleColorHueVariation(int startPos, int endPos, uint16_t baseHue, uint16_t hueRange, uint16_t rainbowHue, uint16_t animationCycleCount) {
+void animateSingleColorHueSaturationValueVariation(int startPos, int endPos, 
+    uint16_t baseHue, uint16_t hueRange, 
+    uint8_t baseSaturation, uint8_t saturationRange, 
+    uint8_t baseValue, uint8_t valueRange, 
+    uint16_t animationIndex, uint16_t animationCycleCount) {
     int length = endPos - startPos;
     for (int i = startPos; i < endPos; ++i) {
         int pos = i - startPos;
         float localPhase = 0.0f;
         uint32_t color = 0;
 
-        // Use rainbowHue as the animation driver
+        // Use animationIndex as the animation driver
         // Offset by pixel for wave
-        localPhase = (float)(((rainbowHue + pos )) * (360.0f/animationCycleCount)) / 90.0f;
+        localPhase = (float)(((animationIndex + pos )) * (360.0f/animationCycleCount)) / 90.0f;
         float s = (sin(localPhase * 2.0f * PI) + 1.0f) / 2.0f;
 
         uint16_t hue = baseHue - hueRange/2 + (uint16_t)(hueRange * s);
-        color = pixels.ColorHSV(hue, 255, 255);
-        
+        uint8_t saturation = baseSaturation - saturationRange/2 + (uint8_t)(saturationRange * s);
+        uint8_t value = baseValue - valueRange/2 + (uint8_t)(valueRange * s);
+        color = pixels.ColorHSV(hue, saturation, value);
         pixels.setPixelColor(i, color);
     }
 }
 
-void animatedTransFlagPattern(int startPos, int endPos, uint16_t rainbowHue, uint16_t animationCycleCount) {
+void animatedTransFlagPattern(int startPos, int endPos, uint16_t animationIndex, uint16_t animationCycleCount) {
     int length = endPos - startPos;
     int section = length / 5;
-
-    // HSV base hues for trans flag colors
-    //Blue = 180 to 250
-    //Pink = 280 to 320
-    uint16_t blueBase = (65536 * 215 ) / 360;
-    uint16_t pinkBase = (65536 * 300 ) / 360;   
-    uint16_t blueRange = (uint16_t)((65536 * 70)/360); 
-    uint16_t pinkRange = (uint16_t)((65536 * 40)/360);
 
     for(int j = 0; j < 5; ++j) {
         // Animate each section of the trans flag
@@ -218,23 +363,30 @@ void animatedTransFlagPattern(int startPos, int endPos, uint16_t rainbowHue, uin
         int sectionEnd = (j == 4) ? endPos : sectionStart + section; // Last section goes to endPos
         if (j == 0 || j == 4) {
             // Blue sections
-            animateSingleColorHueVariation(sectionStart, sectionEnd, blueBase, blueRange, rainbowHue, animationCycleCount);
+            animateSingleColorHueSaturationValueVariation(sectionStart, sectionEnd, 
+                TRANS_BLUE_HUE_BASE, TRANS_BLUE_HUE_RANGE,
+                255, 0, 255, 0,
+                 animationIndex, animationCycleCount);
         } else if (j == 1 || j == 3) {
             // Pink sections
-            animateSingleColorHueVariation(sectionStart, sectionEnd, pinkBase, pinkRange, rainbowHue, animationCycleCount);
+            animateSingleColorHueSaturationValueVariation(sectionStart, sectionEnd, 
+                TRANS_PINK_HUE_BASE, TRANS_PINK_HUE_RANGE, 
+                255, 0, 255, 0,
+                animationIndex, animationCycleCount);
         } else {
             // White section (no animation)
-            for (int i = sectionStart; i < sectionEnd; ++i) {
-                pixels.setPixelColor(i, pixels.Color(255, 255, 255)); // White
-            }
+            animateSingleColorHueSaturationValueVariation(sectionStart, sectionEnd, 
+                0, 0, 0, 0, 
+                WHITE_VALUE_BASE, WHITE_VALUE_RANGE,
+                animationIndex, animationCycleCount);
         }
     }
 }
 
-void drawRainbowSection(int startPos, int endPos, uint16_t rainbowHue) {
+void drawRainbowSection(int startPos, int endPos, uint16_t animationIndex) {
     int sectionLength = endPos - startPos;
     for (int i = startPos; i < endPos; i++) {
-        pixels.setPixelColor(i, pixels.ColorHSV((int)((rainbowHue + i - sectionLength/2) * (65536.0 / sectionLength))));
+        pixels.setPixelColor(i, pixels.ColorHSV((int)((animationIndex + i - sectionLength/2) * (65536.0 / sectionLength))));
     }
 }
 
@@ -243,12 +395,12 @@ void drawRainbowSection(int startPos, int endPos, uint16_t rainbowHue) {
  *****************************************************************************/
 
 void fullRainbowPattern() {
-    static uint16_t rainbowHue = 0;
-    rainbowHue++; // Animate the rainbow
-    if (rainbowHue == NUMPIXELS) {
-      rainbowHue = 0;
+    static uint16_t animationIndex = 0;
+    animationIndex++; // Animate the rainbow
+    if (animationIndex == NUMPIXELS) {
+      animationIndex = 0;
     }
-    drawRainbowSection(0, NUMPIXELS, rainbowHue); 
+    drawRainbowSection(0, NUMPIXELS, animationIndex); 
     pixels.show();
     delay(DELAYVAL/3);
 }
@@ -260,30 +412,30 @@ void staticTransFlagPattern() {
 }
 
 void animatedTransFlagPattern() {
-    static uint16_t rainbowHue = 0;
-    rainbowHue++; // Animate the rainbow
-    if (rainbowHue == NUMPIXELS) {
-      rainbowHue = 0;
+    static uint16_t animationIndex = 0;
+    animationIndex++; // Animate the rainbow
+    if (animationIndex == NUMPIXELS) {
+      animationIndex = 0;
     }
-    animatedTransFlagPattern(0, NUMPIXELS, rainbowHue, NUMPIXELS);
+    animatedTransFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
     pixels.show();
     delay(DELAYVAL);
 }
 
 void mixedRainbowTransFlagPattern() {
-    static uint16_t rainbowHue = 0;
-    rainbowHue++; // Animate the rainbow
+    static uint16_t animationIndex = 0;
+    animationIndex++; // Animate the rainbow
 
     int sectionLength = NUMPIXELS / 3; 
-    if (rainbowHue == sectionLength) {
-      rainbowHue = 0;
+    if (animationIndex == sectionLength) {
+      animationIndex = 0;
     }
     // Rainbow on 0-99
-    drawRainbowSection(0, sectionLength, rainbowHue); 
+    drawRainbowSection(0, sectionLength, animationIndex); 
     // Trans flag on 100-199
     drawTransFlag(sectionLength, sectionLength * 2);
     // Rainbow on 200-299
-    drawRainbowSection(sectionLength * 2, sectionLength * 3, rainbowHue);
+    drawRainbowSection(sectionLength * 2, sectionLength * 3, animationIndex);
     pixels.show();
     delay(DELAYVAL);
 }
@@ -304,16 +456,16 @@ void setEachLetterToDifferentColor() {
 }
 
 void rainbowInEachLetter() {
-    static uint16_t rainbowHue = 0;
-    rainbowHue++; // Animate the rainbow
+    static uint16_t animationIndex = 0;
+    animationIndex++; // Animate the rainbow
     pixels.clear(); // Clear all pixels first
     for (int i = 0; i < LETTER_COUNT; ++i) {
         int start = LETTER_PIXEL_RANGES[i][0];
         int end = LETTER_PIXEL_RANGES[i][1];
         int sectionLength = end - start;
         for (int j = start; j < end; ++j) {
-            // Each letter gets its own rainbow, animated by rainbowHue
-            pixels.setPixelColor(j, pixels.ColorHSV((int)((rainbowHue + (j - start)) * (65536.0 / sectionLength))));
+            // Each letter gets its own rainbow, animated by animationIndex
+            pixels.setPixelColor(j, pixels.ColorHSV((int)((animationIndex + (j - start)) * (65536.0 / sectionLength))));
         }
     }
     pixels.show();
@@ -334,16 +486,16 @@ void staticTransFlagInEachLetter() {
 }
 
 void animatedTransFlagInEachLetter() {
-    static uint16_t rainbowHue = 0;
-    rainbowHue++; // Animate the flag
-    if (rainbowHue == NUMPIXELS) {
-      rainbowHue = 0;
+    static uint16_t animationIndex = 0;
+    animationIndex++; // Animate the flag
+    if (animationIndex == NUMPIXELS) {
+      animationIndex = 0;
     }
     pixels.clear();
     for (int i = 0; i < LETTER_COUNT; ++i) {
         int start = LETTER_PIXEL_RANGES[i][0];
         int end = LETTER_PIXEL_RANGES[i][1];
-        animatedTransFlagPattern(start, end, rainbowHue, NUMPIXELS);
+        animatedTransFlagPattern(start, end, animationIndex, NUMPIXELS);
     }
     pixels.show();
     delay(DELAYVAL);
