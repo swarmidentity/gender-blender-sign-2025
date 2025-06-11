@@ -68,11 +68,11 @@ uint16_t LESBIAN_DARK_PINK_HUE_RANGE = (uint16_t)((65536 * 10)/360);
 uint16_t LESBIAN_PINK_HUE_RANGE = (uint16_t)((65536 * 20)/360);
 
 // Genderqueer Flag
-//Green = 100 to 140
+//Green = 110 to 130
 //Purple = 260 to 280
 uint16_t GENDERQUEER_GREEN_HUE_BASE = (65536 * 120 ) / 360;
 uint16_t GENDERQUEER_PURPLE_HUE_BASE = (65536 * 270 ) / 360;
-uint16_t GENDERQUEER_GREEN_HUE_RANGE = (uint16_t)((65536 * 40)/360);
+uint16_t GENDERQUEER_GREEN_HUE_RANGE = (uint16_t)((65536 * 20)/360);
 uint16_t GENDERQUEER_PURPLE_HUE_RANGE = (uint16_t)((65536 * 20)/360);
 
 //Genderfluid Flag
@@ -87,9 +87,9 @@ uint16_t GENDERFLUID_BLUE_HUE_RANGE = (uint16_t)((65536 * 60)/360);
 uint16_t GENDERFLUID_PURPLE_HUE_RANGE = (uint16_t)((65536 * 20)/360);
 
 //Agender Flag
-//Green = 100 to 140
+//Green = 110 to 130
 uint16_t AGENDER_GREEN_HUE_BASE = (65536 * 120 ) / 360;
-uint16_t AGENDER_GREEN_HUE_RANGE = (uint16_t)((65536 * 40)/360);
+uint16_t AGENDER_GREEN_HUE_RANGE = (uint16_t)((65536 * 20)/360);
 
 //Intersex Flag
 //Yellow = 50 to 65
@@ -101,13 +101,13 @@ uint16_t INTERSEX_PURPLE_HUE_RANGE = (uint16_t)((65536 * 20)/360);
 
 //Polysexual Flag
 //Pink = 280 to 330
-//Green = 100 to 140
+//Green = 110 to 130
 //Blue = 200 to 260
 uint16_t POLYSEXUAL_PINK_HUE_BASE = (65536 * 310 ) / 360;
 uint16_t POLYSEXUAL_GREEN_HUE_BASE = (65536 * 120 ) / 360;
 uint16_t POLYSEXUAL_BLUE_HUE_BASE = (65536 * 230 ) / 360;
 uint16_t POLYSEXUAL_PINK_HUE_RANGE = (uint16_t)((65536 * 50)/360);
-uint16_t POLYSEXUAL_GREEN_HUE_RANGE = (uint16_t)((65536 * 40)/360);
+uint16_t POLYSEXUAL_GREEN_HUE_RANGE = (uint16_t)((65536 * 20)/360);
 uint16_t POLYSEXUAL_BLUE_HUE_RANGE = (uint16_t)((65536 * 60)/360);
 
 //Asexual Flag
@@ -116,9 +116,9 @@ uint16_t ASEXUAL_PURPLE_HUE_BASE = (65536 * 265 ) / 360;
 uint16_t ASEXUAL_PURPLE_HUE_RANGE = (uint16_t)((65536 * 10)/360);
 
 //Aromantic Flag
-//Green = 100 to 140
+//Green = 110 to 130
 uint16_t AROMANTIC_GREEN_HUE_BASE = (65536 * 120 ) / 360;
-uint16_t AROMANTIC_GREEN_HUE_RANGE = (uint16_t)((65536 * 40)/360);
+uint16_t AROMANTIC_GREEN_HUE_RANGE = (uint16_t)((65536 * 20)/360);
 uint8_t AROMANTIC_LIGHT_GREEN_VALUE_BASE = 255;
 uint8_t AROMANTIC_LIGHT_GREEN_VALUE_RANGE = 0; // Light Green is always 255
 uint8_t AROMANTIC_DARK_GREEN_VALUE_BASE = 127; // Dark Green
