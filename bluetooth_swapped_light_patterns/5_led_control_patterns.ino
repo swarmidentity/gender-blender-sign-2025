@@ -68,6 +68,9 @@ void switchBetweenLEDControlPatterns() {
     else if (currentPattern == SEPARATE_FLAG_PER_LETTER) {
         separateFlagPerLetter();
     }
+    else {
+        rainbowInEachLetter(); // Default to rainbow in each letter
+    }
 }
 
 

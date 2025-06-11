@@ -19,19 +19,12 @@ const int LETTER_PIXEL_RANGES[LETTER_COUNT][2] = {
     {266, 300}  // R
 };
 
-//Trans flag = 5 colors
-//Nonbinary flag = 4 colors
-//Pan flag = 3 colors
-//Rainbow = 7 colors (or more)
-
-//GEN DE RBL EN DER for trans pattern
-
 // Optional: Character labels for reference
 const char* LETTER_LABELS[LETTER_COUNT] = {
     "G", "E", "N", "D", "E", "R", "B", "L", "E", "N", "D", "E", "R"
 };
 
-// Example colors for each letter (customize as needed)
+// Debug Colors for Letters - used for aligning
 const uint32_t LETTER_COLORS[LETTER_COUNT] = {
     pixels.Color(255, 0, 0),    // Red
     pixels.Color(255, 128, 0),  // Orange
