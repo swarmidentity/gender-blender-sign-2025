@@ -41,10 +41,12 @@ void setup() {
   #endif
 
   pixels.begin();
+  initializeButton();
 }
 
 void loop() {
     checkForNewBluetoothCommands();
+    checkButtonState();
     switchBetweenLEDControlPatterns();
 }
 
