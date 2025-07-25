@@ -13,8 +13,10 @@ void checkButtonState() {
     // read the state of the switch/button:
   currentState = digitalRead(BUTTON_PIN);
 
-  if(lastState == LOW && currentState == HIGH)
+  if(lastState == LOW && currentState == HIGH) {
     incrementCurrentPattern(); // button was pressed, increment pattern
+    inDebugMode = false; // exit debug mode if it was active
+  }
 
   // save the last state
   lastState = currentState;

@@ -32,14 +32,7 @@ BluetoothSerial SerialBT;
  *****************************************************************************/
 
 void setup() {
-  //Serial.begin(115200);
-  SerialBT.begin(device_name);  //Bluetooth device name
-  //SerialBT.deleteAllBondedDevices(); // Uncomment this to delete paired devices; Must be called after begin
-  //Serial.printf("The device with name \"%s\" is started.\nNow you can pair it with Bluetooth!\n", device_name.c_str());
-  #if defined(__AVR_ATtiny85__) && (F_CPU == 16000000)
-  clock_prescale_set(clock_div_1);
-  #endif
-
+  setupBluetooth();
   pixels.begin();
   initializeButton();
 }
@@ -47,17 +40,11 @@ void setup() {
 void loop() {
     checkForNewBluetoothCommands();
     checkButtonState();
-    switchBetweenLEDControlPatterns();
+    if (!isInDebugMode()) {
+      switchBetweenLEDControlPatterns();
+    }
 }
 
-void checkForNewBluetoothCommands() {
-  if (SerialBT.available()) {
-      String incomingString = SerialBT.readString();
-      incomingString.trim(); 
-      int ledIndex = incomingString.toInt();
-      setCurrentPattern(ledIndex);
-  }
-}
 
 
 
