@@ -20,6 +20,7 @@ enum LEDPattern {
     AROMANTIC_FLAG_ANIMATED = 18,
     BLACK_PRIDE_FLAG_ANIMATED = 19,
     SEPARATE_FLAG_PER_LETTER = 20,
+    ONLY_ONE_LETTER_RAINBOW = 21, 
     // Add more patterns as needed
 };
 
@@ -67,6 +68,9 @@ void switchBetweenLEDControlPatterns() {
     }
     else if (currentPattern == SEPARATE_FLAG_PER_LETTER) {
         separateFlagPerLetter();
+    }
+    else if (currentPattern == ONLY_ONE_LETTER_RAINBOW) {
+         rainbowInOneLetter();
     }
     else {
         rainbowInEachLetter(); // Default to rainbow in each letter
@@ -249,6 +253,24 @@ void separateFlagPerLetter() {
             animateNonbinaryFlagPattern(start, end, animationIndex, animationCycleCount);
         }
     }
+    pixels.show();
+    delay(DELAYVAL);
+}
+
+void rainbowInOneLetter() {
+    static uint16_t animationIndex = 0;
+    animationIndex++; // Animate the rainbow
+    if (animationIndex == NUMPIXELS) {
+      animationIndex = 0;
+    }
+    
+    pixels.clear(); // Clear all pixels first
+
+    // Draw a rainbow in the last letter's pixel range
+    int start = LETTER_PIXEL_RANGES[LETTER_COUNT - 1][0];
+    int end = LETTER_PIXEL_RANGES[LETTER_COUNT - 1][1];
+    drawRainbowSection(start, end, animationIndex, end - start);
+    
     pixels.show();
     delay(DELAYVAL);
 }

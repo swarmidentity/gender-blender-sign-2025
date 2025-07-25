@@ -4,9 +4,9 @@ const int LETTER_COUNT = 13;
 // Start and end pixel indices for each letter in "GENDERBLENDER"
 // Example: {start, end} for each letter (inclusive start, exclusive end)
 const int LETTER_PIXEL_RANGES[LETTER_COUNT][2] = {
-    {0, 20},    // G
-    {22, 42},   // E
-    {44, 64},   // N
+    {0, 62},    // G
+    {63, 64},   // E
+    {65, 66},   // N
     {66, 86},   // D
     {88, 108},  // E
     {110, 130}, // R
@@ -16,7 +16,7 @@ const int LETTER_PIXEL_RANGES[LETTER_COUNT][2] = {
     {198, 218}, // N
     {220, 240}, // D
     {242, 264}, // E
-    {266, 300}  // R
+    {272, 294}  // R
 };
 
 // Optional: Character labels for reference
