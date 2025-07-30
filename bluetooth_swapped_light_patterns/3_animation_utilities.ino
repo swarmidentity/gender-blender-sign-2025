@@ -83,17 +83,6 @@ void setCurrentBrightness(int brightness) {
 }
 
 void setAllPixelsBrightness() {
-    for (int i = 0; i < NUMPIXELS; i++) {
-        uint32_t color = pixels.getPixelColor(i);
-        float r = ((color >> 16) & 0xFF);
-        float g = ((color >> 8) & 0xFF);
-        float b = (color & 0xFF);
-
-        r = round((r * currentBrightness) / 255.0f);
-        g = round((g * currentBrightness) / 255.0f);
-        b = round((b * currentBrightness) / 255.0f);
-
-        pixels.setPixelColor(i, pixels.Color((uint8_t)r, (uint8_t)g, (uint8_t)b));
-    }
+    pixels.setBrightness(currentBrightness);
     pixels.show();
 }

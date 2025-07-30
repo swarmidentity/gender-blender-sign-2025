@@ -30,7 +30,7 @@ void checkForNewBluetoothCommands() {
  * [N] - Increment the current pattern
  * [B#] - Set the brightness to # (0 to 255)
  * [D#] - Set Delay to # (in milliseconds)
- * [L] - Lock current pattern
+ * [LOCK] - Lock current pattern
  * [?] - Output list of available commands
  */
 
@@ -87,7 +87,7 @@ void selectDebugState(String incomingString) {
         int delayValue = incomingString.toInt();
         setDelayValue(delayValue);
     }
-    else if (incomingString.startsWith("L")) {
+    else if (incomingString.startsWith("LOCK")) {
         isPatternLocked = true; // Lock the current pattern
     }
     else if (incomingString.startsWith("?")) {
@@ -99,7 +99,6 @@ void selectDebugState(String incomingString) {
         SerialBT.println("N - Increment the current pattern");
         SerialBT.println("B# - Set the brightness to # (0 to 255)");
         SerialBT.println("D# - Set Delay to # (in milliseconds)");
-        SerialBT.println("L - Lock current pattern");
         SerialBT.println("? - Output list of available commands");
     }
     else {

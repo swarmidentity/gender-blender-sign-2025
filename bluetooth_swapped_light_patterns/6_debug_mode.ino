@@ -27,6 +27,6 @@ void setRangeToHexColor(int start, int end, String hexColor) {
 }
 
 uint32_t hexToColor(String hexColor) {
-    long number = strtol(&hexColor[1], NULL, 16);
+    long number = strtol(&hexColor[0], NULL, 16);
     return pixels.Color((number >> 16) & 0xFF, (number >> 8) & 0xFF, number & 0xFF);
 }
