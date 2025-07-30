@@ -1,3 +1,5 @@
+int DELAYVAL = 100;
+
 enum LEDPattern {
     RAINBOW = 0,
     TRANS_FLAG_STATIC = 1,
@@ -33,6 +35,10 @@ void setCurrentPattern(int patternIndex) {
 void incrementCurrentPattern() {
     currentPattern = static_cast<LEDPattern>((static_cast<int>(currentPattern) + 1)
      % (ONLY_ONE_LETTER_RAINBOW + 1));
+}
+
+void setDelayValue(int delayValue) {
+    DELAYVAL = delayValue;
 }
 
 void switchBetweenLEDControlPatterns() {
@@ -89,7 +95,6 @@ void switchBetweenLEDControlPatterns() {
 
 void staticTransFlagPattern() {
     drawTransFlag(0, NUMPIXELS);
-    pixels.show();
     delay(DELAYVAL);
 }
 
@@ -132,7 +137,6 @@ void animateSinglePrideFlag() {
         // Default to rainbow if an unknown pattern is selected
         drawRainbowSection(0, NUMPIXELS, animationIndex, NUMPIXELS);
     }
-    pixels.show();
     delay(DELAYVAL);
 }
 
@@ -150,7 +154,6 @@ void mixedRainbowTransFlagPattern() {
     drawTransFlag(sectionLength, sectionLength * 2);
     // Rainbow on 200-299
     drawRainbowSection(sectionLength * 2, sectionLength * 3, animationIndex, sectionLength);
-    pixels.show();
     delay(DELAYVAL);
 }
 
@@ -166,7 +169,6 @@ void setEachLetterToDifferentColor() {
             pixels.setPixelColor(j, color);
         }
     }
-    pixels.show();
 }
 
 void rainbowInEachLetter() {
@@ -182,7 +184,6 @@ void rainbowInEachLetter() {
             drawRainbowSection(start, end, animationIndex, sectionLength);
         }
     }
-    pixels.show();
     delay(DELAYVAL);
 }
 
@@ -195,7 +196,6 @@ void staticTransFlagInEachLetter() {
         int end = LETTER_PIXEL_RANGES[i][1];
         drawTransFlag(start, end);
     }
-    pixels.show();
     delay(DELAYVAL);
 }
 
@@ -211,7 +211,6 @@ void animatedTransFlagInEachLetter() {
         int end = LETTER_PIXEL_RANGES[i][1];
         animateTransFlagPattern(start, end, animationIndex, NUMPIXELS);
     }
-    pixels.show();
     delay(DELAYVAL);
 }
 
@@ -258,7 +257,6 @@ void separateFlagPerLetter() {
             animateNonbinaryFlagPattern(start, end, animationIndex, animationCycleCount);
         }
     }
-    pixels.show();
     delay(DELAYVAL);
 }
 
@@ -276,6 +274,5 @@ void rainbowInOneLetter() {
     int end = LETTER_PIXEL_RANGES[LETTER_COUNT - 1][1];
     drawRainbowSection(start, end, animationIndex, end - start);
     
-    pixels.show();
     delay(DELAYVAL);
 }

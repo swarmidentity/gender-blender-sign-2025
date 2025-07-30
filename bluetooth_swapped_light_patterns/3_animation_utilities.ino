@@ -2,6 +2,8 @@
  * Utility functions for drawing patterns *
  *****************************************************************************/
 
+int currentBrightness = 10;
+
 void drawTransFlag(int startPos, int endPos) {
     int length = endPos - startPos;
     for (int i = startPos; i < endPos; i++) {
@@ -72,4 +74,26 @@ void drawRainbowSection(int startPos, int endPos, uint16_t animationIndex, uint1
     for (int i = startPos; i < endPos; i++) {
         pixels.setPixelColor(i, pixels.ColorHSV((int)((animationIndex + i - sectionLength/2) * (65536.0 / animationCycleCount))));
     }
+}
+
+void setCurrentBrightness(int brightness) {
+    currentBrightness = brightness;
+    if (brightness < 0) currentBrightness = 0;
+    if (brightness > 255) currentBrightness = 255;
+}
+
+void setAllPixelsBrightness() {
+    for (int i = 0; i < NUMPIXELS; i++) {
+        uint32_t color = pixels.getPixelColor(i);
+        float r = ((color >> 16) & 0xFF);
+        float g = ((color >> 8) & 0xFF);
+        float b = (color & 0xFF);
+
+        r = round((r * currentBrightness) / 255.0f);
+        g = round((g * currentBrightness) / 255.0f);
+        b = round((b * currentBrightness) / 255.0f);
+
+        pixels.setPixelColor(i, pixels.Color((uint8_t)r, (uint8_t)g, (uint8_t)b));
+    }
+    pixels.show();
 }

@@ -8,7 +8,6 @@ void showSinglePixel(int ledIndex) {
   pixels.clear();
   if (ledIndex >= 0 && ledIndex < NUMPIXELS) {
     pixels.setPixelColor(ledIndex, pixels.Color(255, 255, 255)); // White
-    pixels.show();
   }
 }
 
@@ -18,7 +17,6 @@ void setAllToSameColor(String hexColor) {
     for (int i = 0; i < NUMPIXELS; i++) {
         pixels.setPixelColor(i, color);
     }
-    pixels.show();
 }
 
 void setRangeToHexColor(int start, int end, String hexColor) {
@@ -26,7 +24,6 @@ void setRangeToHexColor(int start, int end, String hexColor) {
     for (int i = start; i < end && i < NUMPIXELS; i++) {
         pixels.setPixelColor(i, color);
     }
-    pixels.show();
 }
 
 uint32_t hexToColor(String hexColor) {
