@@ -1,29 +1,20 @@
 int DELAYVAL = 100;
 
 enum LEDPattern {
-    RAINBOW = 0,
-    TRANS_FLAG_STATIC = 1,
-    MIXED_RAINBOW_TRANS_FLAG = 2,
-    SEPARATE_LETTER_COLORS = 3,
-    RAINBOW_IN_EACH_LETTER = 4,
-    STATIC_TRANS_FLAG_IN_EACH_LETTER = 5,
-    TRANS_FLAG_ANIMATED = 6,
-    ANIMATED_TRANS_FLAG_IN_EACH_LETTER = 7,
-    NONBINARY_FLAG_ANIMATED = 8,
-    PAN_FLAG_ANIMATED = 9,
-    BISEXUAL_FLAG_ANIMATED = 10,
-    LESBIAN_FLAG_ANIMATED = 11,
-    GENDERQUEER_FLAG_ANIMATED = 12,
-    GENDERFLUID_FLAG_ANIMATED = 13,
-    AGENDER_FLAG_ANIMATED = 14,
-    INTERSEX_FLAG_ANIMATED = 15,
-    POLYSEXUAL_FLAG_ANIMATED = 16,
-    ASEXUAL_FLAG_ANIMATED = 17,
-    AROMANTIC_FLAG_ANIMATED = 18,
-    BLACK_PRIDE_FLAG_ANIMATED = 19,
-    SEPARATE_FLAG_PER_LETTER = 20,
-    ONLY_ONE_LETTER_RAINBOW = 21, 
-    // Add more patterns as needed
+    RAINBOW,
+    TRANS_FLAG_STATIC,
+    TRANS_FLAG_ANIMATED,
+    NONBINARY_FLAG_ANIMATED,
+    PAN_FLAG_ANIMATED,
+    BISEXUAL_FLAG_ANIMATED,
+    LESBIAN_FLAG_ANIMATED,
+    GENDERQUEER_FLAG_ANIMATED,
+    GENDERFLUID_FLAG_ANIMATED,
+    AGENDER_FLAG_ANIMATED,
+    INTERSEX_FLAG_ANIMATED,
+    POLYSEXUAL_FLAG_ANIMATED,
+    ASEXUAL_FLAG_ANIMATED,
+    AROMANTIC_FLAG_ANIMATED,
 };
 
 LEDPattern currentPattern = RAINBOW;
@@ -34,7 +25,7 @@ void setCurrentPattern(int patternIndex) {
 
 void incrementCurrentPattern() {
     currentPattern = static_cast<LEDPattern>((static_cast<int>(currentPattern) + 1)
-     % (ONLY_ONE_LETTER_RAINBOW + 1));
+     % (AROMANTIC_FLAG_ANIMATED + 1));
 }
 
 void setDelayValue(int delayValue) {
@@ -44,18 +35,6 @@ void setDelayValue(int delayValue) {
 void switchBetweenLEDControlPatterns() {
     if (currentPattern == TRANS_FLAG_STATIC) {
         staticTransFlagPattern();
-    }
-    else if (currentPattern == MIXED_RAINBOW_TRANS_FLAG) {
-        mixedRainbowTransFlagPattern();
-    }   
-    else if (currentPattern == SEPARATE_LETTER_COLORS) {
-        setEachLetterToDifferentColor();
-    }
-    else if (currentPattern == RAINBOW_IN_EACH_LETTER) {
-        rainbowInEachLetter();
-    }
-    else if (currentPattern == STATIC_TRANS_FLAG_IN_EACH_LETTER) {
-        staticTransFlagInEachLetter();
     }
     else if ((currentPattern == TRANS_FLAG_ANIMATED) 
     | (currentPattern == NONBINARY_FLAG_ANIMATED)
@@ -69,19 +48,9 @@ void switchBetweenLEDControlPatterns() {
     || (currentPattern == POLYSEXUAL_FLAG_ANIMATED)
     || (currentPattern == ASEXUAL_FLAG_ANIMATED)
     || (currentPattern == AROMANTIC_FLAG_ANIMATED)
-    || (currentPattern == BLACK_PRIDE_FLAG_ANIMATED)
     || (currentPattern == RAINBOW))
     {
         animateSinglePrideFlag();
-    }
-    else if (currentPattern == ANIMATED_TRANS_FLAG_IN_EACH_LETTER) {
-        animatedTransFlagInEachLetter();
-    }
-    else if (currentPattern == SEPARATE_FLAG_PER_LETTER) {
-        separateFlagPerLetter();
-    }
-    else if (currentPattern == ONLY_ONE_LETTER_RAINBOW) {
-         rainbowInOneLetter();
     }
     else {
         rainbowInEachLetter(); // Default to rainbow in each letter
@@ -101,36 +70,38 @@ void staticTransFlagPattern() {
 void animateSinglePrideFlag() {
     static uint16_t animationIndex = 0;
     animationIndex++; // Animate the rainbow
-    if (animationIndex == NUMPIXELS) {
+    uint16_t animationCycleCount = 255; // Total number of pixels for animation
+    if (animationIndex == animationCycleCount) {
       animationIndex = 0;
     }
     if (currentPattern == TRANS_FLAG_ANIMATED) {
-        animateTransFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+        animateTransFlagPattern(0, NUMPIXELS, animationIndex, animationCycleCount);
     } else if (currentPattern == NONBINARY_FLAG_ANIMATED) {
-        animateNonbinaryFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+        animateNonbinaryFlagPattern(0, NUMPIXELS, animationIndex, animationCycleCount);
     } else if (currentPattern == PAN_FLAG_ANIMATED) {
-        animatePanFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+        animatePanFlagPattern(0, NUMPIXELS, animationIndex, animationCycleCount);
     } else if (currentPattern == BISEXUAL_FLAG_ANIMATED) {
-        animateBisexualFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+        animateBisexualFlagPattern(0, NUMPIXELS, animationIndex, animationCycleCount);
     } else if (currentPattern == LESBIAN_FLAG_ANIMATED) {
-        animateLesbianFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+        animateLesbianFlagPattern(0, NUMPIXELS, animationIndex, animationCycleCount);
     } else if (currentPattern == GENDERQUEER_FLAG_ANIMATED) {
-        animateGenderqueerFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+        animateGenderqueerFlagPattern(0, NUMPIXELS, animationIndex, animationCycleCount);
     } else if (currentPattern == GENDERFLUID_FLAG_ANIMATED) {
-        animateGenderfluidFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+        animateGenderfluidFlagPattern(0, NUMPIXELS, animationIndex, animationCycleCount);
     } else if (currentPattern == AGENDER_FLAG_ANIMATED) {
-        animateAgenderFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+        animateAgenderFlagPattern(0, NUMPIXELS, animationIndex, animationCycleCount);
     } else if (currentPattern == INTERSEX_FLAG_ANIMATED) {
-        animateIntersexFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+        animateIntersexFlagPattern(0, NUMPIXELS, animationIndex, animationCycleCount);
     } else if (currentPattern == POLYSEXUAL_FLAG_ANIMATED) {
-        animatePolysexualFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+        animatePolysexualFlagPattern(0, NUMPIXELS, animationIndex, animationCycleCount);
     } else if (currentPattern == ASEXUAL_FLAG_ANIMATED) {
-        animateAsexualFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+        animateAsexualFlagPattern(0, NUMPIXELS, animationIndex, animationCycleCount);
     } else if (currentPattern == AROMANTIC_FLAG_ANIMATED) {
-        animateAromanticFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
-    } else if (currentPattern == BLACK_PRIDE_FLAG_ANIMATED) {
-        animateBlackPrideFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+        animateAromanticFlagPattern(0, NUMPIXELS, animationIndex, animationCycleCount);
     } else if (currentPattern == RAINBOW) {
+        if (animationIndex == NUMPIXELS) {
+            animationIndex = 0; // Reset animation index to loop
+        }
         drawRainbowSection(0, NUMPIXELS, animationIndex, NUMPIXELS); 
     }
     else {

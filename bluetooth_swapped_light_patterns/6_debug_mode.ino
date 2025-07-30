@@ -21,7 +21,7 @@ void setAllToSameColor(String hexColor) {
 
 void setRangeToHexColor(int start, int end, String hexColor) {
     uint32_t color = hexToColor(hexColor);
-    for (int i = start; i < end && i < NUMPIXELS; i++) {
+    for (int i = start; i <= end && i < NUMPIXELS; i++) {
         pixels.setPixelColor(i, color);
     }
 }
