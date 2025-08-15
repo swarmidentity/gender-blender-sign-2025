@@ -11,7 +11,7 @@
 
 Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
-String device_name = "HackMyPurse!!!";
+String device_name = "GlowyPurse";
 
 
 // Check if Bluetooth is available
