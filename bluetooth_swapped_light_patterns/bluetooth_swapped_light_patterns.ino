@@ -35,6 +35,7 @@ void setup() {
   setupBluetooth();
   pixels.begin();
   initializeButton();
+  setupServerSerial();
 }
 
 void loop() {
@@ -43,6 +44,7 @@ void loop() {
     if (!isInDebugMode()) {
       switchBetweenLEDControlPatterns();
     }
+    loopServer();
 }
 
 
