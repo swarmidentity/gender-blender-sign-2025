@@ -99,15 +99,36 @@ void selectDebugState(String incomingString) {
     }
     else if (incomingString.startsWith("?")) {
         SerialBT.println("Available commands:");
-        SerialBT.println("C[HexColor] - Set all pixels to a single color");
+        SerialBT.println("? - Output list of available commands (but you already know that)");
+        SerialBT.println("#[HexColor] - Set all pixels to a single color");
         SerialBT.println("P# - Show a single pixel at index #");
         SerialBT.println("R[start]-[end]-[hexColor] - Set a range of pixels to a hex color");
-        SerialBT.println("M# - Set the current pattern to # (0 to 13)");
-        SerialBT.println("N - Increment the current pattern");
         SerialBT.println("B# - Set the brightness to # (0 to 255)");
         SerialBT.println("D# - Set Delay to # (in milliseconds)");
-        SerialBT.println("F# - Set Frequency Multiplier");
-        SerialBT.println("? - Output list of available commands");
+        SerialBT.println("F# - Set Frequency Multiplier (1 to 1000) - higher = more manic");
+        SerialBT.println("N - Increment the current pattern");
+        SerialBT.println("M# - Set the current pattern to # (0 to 118)");
+        SerialBT.println("Patterns:");
+        SerialBT.println("M0 = SEPARATE_FLAG_PER_LETTER");
+        SerialBT.println("M1 = RAINBOW");
+        SerialBT.println("M2 = TRANS_FLAG_ANIMATED");
+        SerialBT.println("M3 = NONBINARY_FLAG_ANIMATED");
+        SerialBT.println("M4 = PAN_FLAG_ANIMATED");
+        SerialBT.println("M5 = BISEXUAL_FLAG_ANIMATED");
+        SerialBT.println("M6 = LESBIAN_FLAG_ANIMATED");
+        SerialBT.println("M7 = GENDERQUEER_FLAG_ANIMATED");
+        SerialBT.println("M8 = GENDERFLUID_FLAG_ANIMATED");
+        SerialBT.println("M9 = AGENDER_FLAG_ANIMATED");
+        SerialBT.println("M10 = INTERSEX_FLAG_ANIMATED");
+        SerialBT.println("M11 = POLYSEXUAL_FLAG_ANIMATED");
+        SerialBT.println("M12 = ASEXUAL_FLAG_ANIMATED");
+        SerialBT.println("M13 = AROMANTIC_FLAG_ANIMATED");
+        SerialBT.println("M14 = BIPOC_PRIDE_FLAG_ANIMATED");
+        SerialBT.println("M15 = TRANS_FLAG_STATIC");
+        SerialBT.println("M16 = RAINBOW_IN_EACH_LETTER");
+        SerialBT.println("M17 = ANIMATED_TRANS_FLAG_IN_EACH_LETTER");
+        SerialBT.println("M18 = STATIC_TRANS_FLAG_IN_EACH_LETTER");
+        SerialBT.println("--Nai1s--");
     }
     else {
         inDebugMode = false;

@@ -2,29 +2,29 @@ int DELAYVAL = 0;
 int FREQUENCY_MULTIPLIER = 1;
 
 enum LEDPattern {
-    RAINBOW = 0,
-    TRANS_FLAG_STATIC = 1,
-    RAINBOW_IN_EACH_LETTER = 2,
-    STATIC_TRANS_FLAG_IN_EACH_LETTER = 3,
-    TRANS_FLAG_ANIMATED = 4,
-    ANIMATED_TRANS_FLAG_IN_EACH_LETTER = 5,
-    NONBINARY_FLAG_ANIMATED = 6,
-    PAN_FLAG_ANIMATED = 7,
-    BISEXUAL_FLAG_ANIMATED = 8,
-    LESBIAN_FLAG_ANIMATED = 9,
-    GENDERQUEER_FLAG_ANIMATED = 10,
-    GENDERFLUID_FLAG_ANIMATED = 11,
-    AGENDER_FLAG_ANIMATED = 12,
-    INTERSEX_FLAG_ANIMATED = 13,
-    POLYSEXUAL_FLAG_ANIMATED = 14,
-    ASEXUAL_FLAG_ANIMATED = 15,
-    AROMANTIC_FLAG_ANIMATED = 16,
-    BLACK_PRIDE_FLAG_ANIMATED = 17,
-    SEPARATE_FLAG_PER_LETTER = 18,
+    SEPARATE_FLAG_PER_LETTER = 0,
+    RAINBOW = 1,
+    TRANS_FLAG_ANIMATED = 2,
+    NONBINARY_FLAG_ANIMATED = 3,
+    PAN_FLAG_ANIMATED = 4,
+    BISEXUAL_FLAG_ANIMATED = 5,
+    LESBIAN_FLAG_ANIMATED = 6,
+    GENDERQUEER_FLAG_ANIMATED = 7,
+    GENDERFLUID_FLAG_ANIMATED = 8,
+    AGENDER_FLAG_ANIMATED = 9,
+    INTERSEX_FLAG_ANIMATED = 10,
+    POLYSEXUAL_FLAG_ANIMATED = 11,
+    ASEXUAL_FLAG_ANIMATED = 12,
+    AROMANTIC_FLAG_ANIMATED = 13,
+    BIPOC_PRIDE_FLAG_ANIMATED = 14,
+    TRANS_FLAG_STATIC = 15,
+    RAINBOW_IN_EACH_LETTER = 16,
+    ANIMATED_TRANS_FLAG_IN_EACH_LETTER = 17,
+    STATIC_TRANS_FLAG_IN_EACH_LETTER = 18,
     // Add more patterns as needed
 };
 
-LEDPattern currentPattern = RAINBOW;
+LEDPattern currentPattern = SEPARATE_FLAG_PER_LETTER;
 
 void setCurrentPattern(int patternIndex) {
       currentPattern = static_cast<LEDPattern>(patternIndex);
@@ -32,7 +32,7 @@ void setCurrentPattern(int patternIndex) {
 
 void incrementCurrentPattern() {
     currentPattern = static_cast<LEDPattern>((static_cast<int>(currentPattern) + 1)
-     % (SEPARATE_FLAG_PER_LETTER + 1));
+     % (STATIC_TRANS_FLAG_IN_EACH_LETTER + 1));
 }
 
 void setDelayValue(int delayValue) {
@@ -40,6 +40,11 @@ void setDelayValue(int delayValue) {
 }
 
 void setFrequencyMultiplier(int frequencyMultiplier) {
+    if (frequencyMultiplier < 1) {
+        frequencyMultiplier = 1; // Ensure minimum value
+    } else if (frequencyMultiplier > 1000) {
+        frequencyMultiplier = 1000; // Ensure maximum value
+    }
     FREQUENCY_MULTIPLIER = frequencyMultiplier;
 }
 
@@ -65,7 +70,7 @@ void switchBetweenLEDControlPatterns() {
     || (currentPattern == POLYSEXUAL_FLAG_ANIMATED)
     || (currentPattern == ASEXUAL_FLAG_ANIMATED)
     || (currentPattern == AROMANTIC_FLAG_ANIMATED)
-    || (currentPattern == BLACK_PRIDE_FLAG_ANIMATED)
+    || (currentPattern == BIPOC_PRIDE_FLAG_ANIMATED)
     || (currentPattern == RAINBOW))
     {
         animateSinglePrideFlag();
@@ -122,7 +127,7 @@ void animateSinglePrideFlag() {
         animateAsexualFlagPattern(0, NUMPIXELS, false, animationIndex, NUMPIXELS /  FREQUENCY_MULTIPLIER);
     } else if (currentPattern == AROMANTIC_FLAG_ANIMATED) {
         animateAromanticFlagPattern(0, NUMPIXELS, false, animationIndex, NUMPIXELS /  FREQUENCY_MULTIPLIER);
-    } else if (currentPattern == BLACK_PRIDE_FLAG_ANIMATED) {
+    } else if (currentPattern == BIPOC_PRIDE_FLAG_ANIMATED) {
         animateBlackPrideFlagPattern(0, NUMPIXELS, false, animationIndex, NUMPIXELS /  FREQUENCY_MULTIPLIER);
     } else if (currentPattern == RAINBOW) {
         drawRainbowSection(0, NUMPIXELS, false, animationIndex, NUMPIXELS /  FREQUENCY_MULTIPLIER); 
@@ -191,9 +196,6 @@ void separateFlagPerLetter() {
     }
     
     pixels.clear(); // Clear all pixels first
-
-    //TODO - if adding any reactivity (such as sound), the animationCycleCount is a good place for it
-    uint16_t animationCycleCount = NUMPIXELS / FREQUENCY_MULTIPLIER; 
 
     for (int i = 0; i < LETTER_COUNT; ++i) {
         int start = LETTER_PIXEL_RANGES[i][0];
