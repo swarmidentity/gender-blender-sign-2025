@@ -148,11 +148,11 @@ void animateAromanticFlagPattern(int startPos, int endPos, bool isClockwise, uin
 
 void animateBlackPrideFlagPattern(int startPos, int endPos, bool isClockwise, uint16_t animationIndex, uint16_t animationCycleCount) {
     const int stripeCount = 3;
-    const uint16_t hueBase[stripeCount] = { BLACK_PRIDE_DARK_HUE, BLACK_PRIDE_DARK_HUE, BLACK_PRIDE_DARK_HUE };
+    const uint16_t hueBase[stripeCount] = { BIPOC_PRIDE_DARK_HUE, BIPOC_PRIDE_DARK_HUE, BIPOC_PRIDE_DARK_HUE };
     const uint16_t hueRange[stripeCount] = { 0,0,0 };
-    const uint8_t satBase[stripeCount] = { BLACK_PRIDE_DARK_SATURATION, BLACK_PRIDE_DARK_SATURATION, BLACK_PRIDE_DARK_SATURATION };
+    const uint8_t satBase[stripeCount] = { BIPOC_PRIDE_DARK_SATURATION, BIPOC_PRIDE_DARK_SATURATION, BIPOC_PRIDE_DARK_SATURATION };
     const uint8_t satRange[stripeCount] = { 0, 0, 0 };
-    const uint8_t valBase[stripeCount] = {  BLACK_PRIDE_MEDIUM_BROWN_VALUE_BASE, BLACK_PRIDE_DARK_BROWN_VALUE_BASE , BLACK_PRIDE_BLACK_VALUE_BASE };
-    const uint8_t valRange[stripeCount] = {  BLACK_PRIDE_MEDIUM_BROWN_VALUE_RANGE, BLACK_PRIDE_DARK_BROWN_VALUE_RANGE, BLACK_PRIDE_BLACK_VALUE_RANGE };
+    const uint8_t valBase[stripeCount] = {  BIPOC_PRIDE_MEDIUM_BROWN_VALUE_BASE, BIPOC_PRIDE_DARK_BROWN_VALUE_BASE , BIPOC_PRIDE_BLACK_VALUE_BASE };
+    const uint8_t valRange[stripeCount] = {  BIPOC_PRIDE_MEDIUM_BROWN_VALUE_RANGE, BIPOC_PRIDE_DARK_BROWN_VALUE_RANGE, BIPOC_PRIDE_BLACK_VALUE_RANGE };
     animatedStripeFlagPattern(startPos, endPos, isClockwise,animationIndex, animationCycleCount, hueBase, hueRange, satBase, satRange, valBase, valRange, stripeCount);
 }
