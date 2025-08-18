@@ -22,7 +22,7 @@ void drawTransFlag(int startPos, int endPos) {
     }
 }
 
-void animateSingleColorHueSaturationValueVariation(int startPos, int endPos, 
+void animateSingleColorHueSaturationValueVariation(int startPos, int endPos, bool isClockwise,
     uint16_t baseHue, uint16_t hueRange, 
     uint8_t baseSaturation, uint8_t saturationRange, 
     uint8_t baseValue, uint8_t valueRange, 
@@ -33,9 +33,14 @@ void animateSingleColorHueSaturationValueVariation(int startPos, int endPos,
         float localPhase = 0.0f;
         uint32_t color = 0;
 
+        int clockwiseAdjustedPos = animationIndex + pos;
+        if (!isClockwise) {
+            clockwiseAdjustedPos = animationIndex - pos;
+        }
+        
         // Use animationIndex as the animation driver
         // Offset by pixel for wave
-        localPhase = (float)(((animationIndex + pos )) * (360.0f/animationCycleCount)) / 90.0f;
+        localPhase = (float)(((clockwiseAdjustedPos)) * (360.0f/animationCycleCount)) / 90.0f;
         float s = (sin(localPhase * 2.0f * PI) + 1.0f) / 2.0f;
 
         uint16_t hue = baseHue - hueRange/2 + (uint16_t)(hueRange * s);
@@ -47,7 +52,7 @@ void animateSingleColorHueSaturationValueVariation(int startPos, int endPos,
 }
 
 void animatedStripeFlagPattern(
-    int startPos, int endPos, uint16_t animationIndex, uint16_t animationCycleCount,
+    int startPos, int endPos, bool isClockwise, uint16_t animationIndex, uint16_t animationCycleCount,
     const uint16_t* hueBase, const uint16_t* hueRange,
     const uint8_t* satBase, const uint8_t* satRange,
     const uint8_t* valBase, const uint8_t* valRange,
@@ -60,7 +65,7 @@ void animatedStripeFlagPattern(
         int sectionStart = startPos + int(j * section);
         int sectionEnd = (j == stripeCount - 1) ? endPos : sectionStart + section; // Last section goes to endPos
         animateSingleColorHueSaturationValueVariation(
-            sectionStart, sectionEnd,
+            sectionStart, sectionEnd, isClockwise,
             hueBase[j], hueRange[j],
             satBase[j], satRange[j],
             valBase[j], valRange[j],
@@ -69,10 +74,14 @@ void animatedStripeFlagPattern(
     }
 }
 
-void drawRainbowSection(int startPos, int endPos, uint16_t animationIndex, uint16_t animationCycleCount) {
+void drawRainbowSection(int startPos, int endPos, bool isClockwise, uint16_t animationIndex, uint16_t animationCycleCount) {
     int sectionLength = endPos - startPos;
     for (int i = startPos; i < endPos; i++) {
-        pixels.setPixelColor(i, pixels.ColorHSV((int)((animationIndex + i - sectionLength/2) * (65536.0 / animationCycleCount))));
+        int clockwiseAdjustedPos = animationIndex + i - sectionLength/2;
+        if (!isClockwise) {
+            clockwiseAdjustedPos = animationIndex - i - sectionLength/2;
+        }
+        pixels.setPixelColor(i, pixels.ColorHSV((int)((clockwiseAdjustedPos) * (65536.0 / animationCycleCount))));
     }
 }
 

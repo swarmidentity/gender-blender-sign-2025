@@ -19,6 +19,23 @@ const int LETTER_PIXEL_RANGES[LETTER_COUNT][2] = {
     {684, 737}  // R
 };
 
+// Direction for each letter: true = clockwise, false = counterclockwise
+const bool LETTER_CLOCKWISE[LETTER_COUNT] = {
+    true,   // G
+    true,  // E
+    false,   // N
+    false,  // D
+    true,   // E
+    false,  // R
+    true,   // B
+    true,  // L
+    false,   // E
+    false,  // N
+    false,   // D
+    true,  // E
+    false    // R
+};
+
 // Optional: Character labels for reference
 const char* LETTER_LABELS[LETTER_COUNT] = {
     "G", "E", "N", "D", "E", "R", "B", "L", "E", "N", "D", "E", "R"
