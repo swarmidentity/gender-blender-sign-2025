@@ -11,9 +11,8 @@
 
 Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
-String device_name = "GenderBlender";
+String device_name = "GlowyPurse";
 
-#define DELAYVAL 20
 
 // Check if Bluetooth is available
 #if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
@@ -43,6 +42,7 @@ void loop() {
     if (!isInDebugMode()) {
       switchBetweenLEDControlPatterns();
     }
+    setAllPixelsBrightness(); // Apply brightness to all pixels
 }
 
 

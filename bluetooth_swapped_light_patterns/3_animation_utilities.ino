@@ -2,17 +2,19 @@
  * Utility functions for drawing patterns *
  *****************************************************************************/
 
+int currentBrightness = 10;
+
 void drawTransFlag(int startPos, int endPos) {
     int length = endPos - startPos;
     for (int i = startPos; i < endPos; i++) {
-        int pos = i - startPos;
-        if (pos < length / 5) {
+        float posNorm = float(i - startPos) / float(length);
+        if (posNorm < 0.2f) {
             pixels.setPixelColor(i, TRANS_BLUE);
-        } else if (pos < (length / 5) * 2) {
+        } else if (posNorm < 0.4f) {
             pixels.setPixelColor(i, TRANS_PINK);
-        } else if (pos < (length / 5) * 3) {
+        } else if (posNorm < 0.6f) {
             pixels.setPixelColor(i, TRANS_WHITE);
-        } else if (pos < (length / 5) * 4) {
+        } else if (posNorm < 0.8f) {
             pixels.setPixelColor(i, TRANS_PINK);
         } else {
             pixels.setPixelColor(i, TRANS_BLUE);
@@ -52,10 +54,10 @@ void animatedStripeFlagPattern(
     int stripeCount
 ) {
     int length = endPos - startPos;
-    int section = length / stripeCount;
+    float section = float(length) / float(stripeCount);
 
     for (int j = 0; j < stripeCount; ++j) {
-        int sectionStart = startPos + j * section;
+        int sectionStart = startPos + int(j * section);
         int sectionEnd = (j == stripeCount - 1) ? endPos : sectionStart + section; // Last section goes to endPos
         animateSingleColorHueSaturationValueVariation(
             sectionStart, sectionEnd,
@@ -72,4 +74,15 @@ void drawRainbowSection(int startPos, int endPos, uint16_t animationIndex, uint1
     for (int i = startPos; i < endPos; i++) {
         pixels.setPixelColor(i, pixels.ColorHSV((int)((animationIndex + i - sectionLength/2) * (65536.0 / animationCycleCount))));
     }
+}
+
+void setCurrentBrightness(int brightness) {
+    currentBrightness = brightness;
+    if (brightness < 0) currentBrightness = 0;
+    if (brightness > 255) currentBrightness = 255;
+}
+
+void setAllPixelsBrightness() {
+    pixels.setBrightness(currentBrightness);
+    pixels.show();
 }

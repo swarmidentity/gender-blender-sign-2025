@@ -8,8 +8,11 @@ void setupBluetooth() {
   #endif
 }
 
+bool isPatternLocked = false;
+
+
 void checkForNewBluetoothCommands() {
-  if (SerialBT.available()) {
+  if (SerialBT.available()&& !isPatternLocked) {
       String incomingString = SerialBT.readString();
       incomingString.trim(); 
       selectDebugState(incomingString);
@@ -20,16 +23,20 @@ void checkForNewBluetoothCommands() {
  * Debug Mode Functions *
  *****************************************************************************
 
- #[HexColor] - Set all pixels to a single color
+ # [C#] - Set all pixels to a single color (Hex Color Code)
  * [P#] - Show a single pixel at index #
  * [Rstart-end-hexColor] - Set a range of pixels to a hex color
  * [M#] - Set the current pattern to # (0 to 13)
  * [N] - Increment the current pattern
+ * [B#] - Set the brightness to # (0 to 255)
+ * [D#] - Set Delay to # (in milliseconds)
+ * [LOCK] - Lock current pattern
+ * [?] - Output list of available commands
  */
 
 void selectDebugState(String incomingString) {
-    if (incomingString.startsWith("#")) {
-        incomingString.remove(0, 1); // Remove "#"
+    if (incomingString.startsWith("C")) {
+        incomingString.remove(0, 1); // Remove "C"
         incomingString.trim();
         setAllToSameColor(incomingString);
         inDebugMode = true;
@@ -67,6 +74,32 @@ void selectDebugState(String incomingString) {
     else if (incomingString.startsWith("N")) {
         incrementCurrentPattern();
         inDebugMode = false;
+    }
+    else if (incomingString.startsWith("B")) {
+        incomingString.remove(0, 1); // Remove "B"
+        incomingString.trim();
+        int brightness = incomingString.toInt();
+        setCurrentBrightness(brightness);
+    }
+    else if (incomingString.startsWith("D")) {
+        incomingString.remove(0, 1); // Remove "D"
+        incomingString.trim();
+        int delayValue = incomingString.toInt();
+        setDelayValue(delayValue);
+    }
+    else if (incomingString.startsWith("LOCK")) {
+        isPatternLocked = true; // Lock the current pattern
+    }
+    else if (incomingString.startsWith("?")) {
+        SerialBT.println("Available commands:");
+        SerialBT.println("C[HexColor] - Set all pixels to a single color");
+        SerialBT.println("P# - Show a single pixel at index #");
+        SerialBT.println("R[start]-[end]-[hexColor] - Set a range of pixels to a hex color");
+        SerialBT.println("M# - Set the current pattern to # (0 to 13)");
+        SerialBT.println("N - Increment the current pattern");
+        SerialBT.println("B# - Set the brightness to # (0 to 255)");
+        SerialBT.println("D# - Set Delay to # (in milliseconds)");
+        SerialBT.println("? - Output list of available commands");
     }
     else {
         inDebugMode = false;
