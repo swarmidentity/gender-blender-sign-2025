@@ -5,18 +5,18 @@ const int LETTER_COUNT = 13;
 // Example: {start, end} for each letter (inclusive start, exclusive end)
 const int LETTER_PIXEL_RANGES[LETTER_COUNT][2] = {
     {0, 62},    // G
-    {63, 64},   // E
-    {65, 66},   // N
-    {66, 86},   // D
-    {88, 108},  // E
-    {110, 130}, // R
-    {132, 152}, // B
-    {154, 174}, // L
-    {176, 196}, // E
-    {198, 218}, // N
-    {220, 240}, // D
-    {242, 264}, // E
-    {272, 294}  // R
+    {63, 117},   // E
+    {118, 175},   // N
+    {176, 246},   // D
+    {247, 296},  // E
+    {297, 349}, // R
+    {350, 421}, // B
+    {422, 456}, // L
+    {457, 507}, // E
+    {508, 563}, // N
+    {564, 631}, // D
+    {632, 683}, // E
+    {684, 737}  // R
 };
 
 // Optional: Character labels for reference
