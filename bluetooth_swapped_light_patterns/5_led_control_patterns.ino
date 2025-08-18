@@ -1,3 +1,5 @@
+int DELAYVAL = 10;
+
 enum LEDPattern {
     RAINBOW = 0,
     TRANS_FLAG_STATIC = 1,
@@ -33,6 +35,10 @@ void setCurrentPattern(int patternIndex) {
 void incrementCurrentPattern() {
     currentPattern = static_cast<LEDPattern>((static_cast<int>(currentPattern) + 1)
      % (ONLY_ONE_LETTER_RAINBOW + 1));
+}
+
+void setDelayValue(int delayValue) {
+    DELAYVAL = delayValue;
 }
 
 void switchBetweenLEDControlPatterns() {

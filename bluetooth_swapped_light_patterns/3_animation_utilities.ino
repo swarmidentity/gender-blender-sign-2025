@@ -2,7 +2,7 @@
  * Utility functions for drawing patterns *
  *****************************************************************************/
 
-int currentBrightness = 10;
+int currentBrightness = 255;
 
 void drawTransFlag(int startPos, int endPos) {
     int length = endPos - startPos;
