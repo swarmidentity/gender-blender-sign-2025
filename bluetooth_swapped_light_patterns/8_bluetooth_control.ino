@@ -23,20 +23,21 @@ void checkForNewBluetoothCommands() {
  * Debug Mode Functions *
  *****************************************************************************
 
- # [C#] - Set all pixels to a single color (Hex Color Code)
+ # [##] - Set all pixels to a single color (Hex Color Code)
  * [P#] - Show a single pixel at index #
  * [Rstart-end-hexColor] - Set a range of pixels to a hex color
  * [M#] - Set the current pattern to # (0 to 13)
  * [N] - Increment the current pattern
  * [B#] - Set the brightness to # (0 to 255)
  * [D#] - Set Delay to # (in milliseconds)
+ * [F#] - Set Frequency Multiplier
  * [LOCK] - Lock current pattern
  * [?] - Output list of available commands
  */
 
 void selectDebugState(String incomingString) {
-    if (incomingString.startsWith("C")) {
-        incomingString.remove(0, 1); // Remove "C"
+    if (incomingString.startsWith("#")) {
+        incomingString.remove(0, 1); // Remove "#"
         incomingString.trim();
         setAllToSameColor(incomingString);
         inDebugMode = true;
@@ -87,6 +88,12 @@ void selectDebugState(String incomingString) {
         int delayValue = incomingString.toInt();
         setDelayValue(delayValue);
     }
+    else if (incomingString.startsWith("F")) {
+        incomingString.remove(0, 1); // Remove "F"
+        incomingString.trim();
+        int frequencyMultiplier = incomingString.toInt();
+        setFrequencyMultiplier(frequencyMultiplier);
+    }
     else if (incomingString.startsWith("LOCK")) {
         isPatternLocked = true; // Lock the current pattern
     }
@@ -99,6 +106,7 @@ void selectDebugState(String incomingString) {
         SerialBT.println("N - Increment the current pattern");
         SerialBT.println("B# - Set the brightness to # (0 to 255)");
         SerialBT.println("D# - Set Delay to # (in milliseconds)");
+        SerialBT.println("F# - Set Frequency Multiplier");
         SerialBT.println("? - Output list of available commands");
     }
     else {

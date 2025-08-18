@@ -1,4 +1,5 @@
-int DELAYVAL = 10;
+int DELAYVAL = 0;
+int FREQUENCY_MULTIPLIER = 1;
 
 enum LEDPattern {
     RAINBOW = 0,
@@ -39,6 +40,10 @@ void incrementCurrentPattern() {
 
 void setDelayValue(int delayValue) {
     DELAYVAL = delayValue;
+}
+
+void setFrequencyMultiplier(int frequencyMultiplier) {
+    FREQUENCY_MULTIPLIER = frequencyMultiplier;
 }
 
 void switchBetweenLEDControlPatterns() {
@@ -106,37 +111,37 @@ void animateSinglePrideFlag() {
       animationIndex = 0;
     }
     if (currentPattern == TRANS_FLAG_ANIMATED) {
-        animateTransFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+        animateTransFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS /  FREQUENCY_MULTIPLIER);
     } else if (currentPattern == NONBINARY_FLAG_ANIMATED) {
-        animateNonbinaryFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+        animateNonbinaryFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS /  FREQUENCY_MULTIPLIER);
     } else if (currentPattern == PAN_FLAG_ANIMATED) {
-        animatePanFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+        animatePanFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS /  FREQUENCY_MULTIPLIER);
     } else if (currentPattern == BISEXUAL_FLAG_ANIMATED) {
-        animateBisexualFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+        animateBisexualFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS /  FREQUENCY_MULTIPLIER);
     } else if (currentPattern == LESBIAN_FLAG_ANIMATED) {
-        animateLesbianFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+        animateLesbianFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS /  FREQUENCY_MULTIPLIER);
     } else if (currentPattern == GENDERQUEER_FLAG_ANIMATED) {
-        animateGenderqueerFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+        animateGenderqueerFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS /  FREQUENCY_MULTIPLIER);
     } else if (currentPattern == GENDERFLUID_FLAG_ANIMATED) {
-        animateGenderfluidFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+        animateGenderfluidFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS /  FREQUENCY_MULTIPLIER);
     } else if (currentPattern == AGENDER_FLAG_ANIMATED) {
-        animateAgenderFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+        animateAgenderFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS /  FREQUENCY_MULTIPLIER);
     } else if (currentPattern == INTERSEX_FLAG_ANIMATED) {
-        animateIntersexFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+        animateIntersexFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS /  FREQUENCY_MULTIPLIER);
     } else if (currentPattern == POLYSEXUAL_FLAG_ANIMATED) {
-        animatePolysexualFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+        animatePolysexualFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS /  FREQUENCY_MULTIPLIER);
     } else if (currentPattern == ASEXUAL_FLAG_ANIMATED) {
-        animateAsexualFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+        animateAsexualFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS /  FREQUENCY_MULTIPLIER);
     } else if (currentPattern == AROMANTIC_FLAG_ANIMATED) {
-        animateAromanticFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+        animateAromanticFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS /  FREQUENCY_MULTIPLIER);
     } else if (currentPattern == BLACK_PRIDE_FLAG_ANIMATED) {
-        animateBlackPrideFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS);
+        animateBlackPrideFlagPattern(0, NUMPIXELS, animationIndex, NUMPIXELS /  FREQUENCY_MULTIPLIER);
     } else if (currentPattern == RAINBOW) {
-        drawRainbowSection(0, NUMPIXELS, animationIndex, NUMPIXELS); 
+        drawRainbowSection(0, NUMPIXELS, animationIndex, NUMPIXELS /  FREQUENCY_MULTIPLIER); 
     }
     else {
         // Default to rainbow if an unknown pattern is selected
-        drawRainbowSection(0, NUMPIXELS, animationIndex, NUMPIXELS);
+        drawRainbowSection(0, NUMPIXELS, animationIndex, NUMPIXELS /  FREQUENCY_MULTIPLIER);
     }
     pixels.show();
     delay(DELAYVAL);
@@ -185,7 +190,7 @@ void rainbowInEachLetter() {
         int sectionLength = end - start;
         for (int j = start; j < end; ++j) {
             // Each letter gets its own rainbow, animated by animationIndex
-            drawRainbowSection(start, end, animationIndex, sectionLength);
+            drawRainbowSection(start, end, animationIndex, sectionLength / FREQUENCY_MULTIPLIER);
         }
     }
     pixels.show();
@@ -215,7 +220,7 @@ void animatedTransFlagInEachLetter() {
     for (int i = 0; i < LETTER_COUNT; ++i) {
         int start = LETTER_PIXEL_RANGES[i][0];
         int end = LETTER_PIXEL_RANGES[i][1];
-        animateTransFlagPattern(start, end, animationIndex, NUMPIXELS);
+        animateTransFlagPattern(start, end, animationIndex, (end - start) / FREQUENCY_MULTIPLIER);
     }
     pixels.show();
     delay(DELAYVAL);
@@ -231,37 +236,37 @@ void separateFlagPerLetter() {
     pixels.clear(); // Clear all pixels first
 
     //TODO - if adding any reactivity (such as sound), the animationCycleCount is a good place for it
-    uint16_t animationCycleCount = NUMPIXELS; 
+    uint16_t animationCycleCount = NUMPIXELS / FREQUENCY_MULTIPLIER; 
 
     for (int i = 0; i < LETTER_COUNT; ++i) {
         int start = LETTER_PIXEL_RANGES[i][0];
         int end = LETTER_PIXEL_RANGES[i][1];
         if (i == 0) {
-            animateTransFlagPattern(start, end, animationIndex, animationCycleCount);
+            animateTransFlagPattern(start, end, animationIndex, (end - start) / FREQUENCY_MULTIPLIER);
         } else if (i == 1) {
-            animateBlackPrideFlagPattern(start, end, animationIndex, animationCycleCount);
+            animateBlackPrideFlagPattern(start, end, animationIndex, (end - start) / FREQUENCY_MULTIPLIER);
         } else if (i == 2) {
-            drawRainbowSection(start, end, animationIndex, animationCycleCount / 3); 
+            drawRainbowSection(start, end, animationIndex, (end - start) / FREQUENCY_MULTIPLIER); 
         } else if (i == 3) {
-            animateBisexualFlagPattern(start, end, animationIndex, animationCycleCount);
+            animateBisexualFlagPattern(start, end, animationIndex, (end - start) / FREQUENCY_MULTIPLIER);
         } else if (i == 4) {
-            animateLesbianFlagPattern(start, end, animationIndex, animationCycleCount);
+            animateLesbianFlagPattern(start, end, animationIndex, (end - start) / FREQUENCY_MULTIPLIER);
         } else if (i == 5) {
-            animateGenderqueerFlagPattern(start, end, animationIndex, animationCycleCount);
+            animateGenderqueerFlagPattern(start, end, animationIndex, (end - start) / FREQUENCY_MULTIPLIER);
         } else if (i == 6) {
-            animateGenderfluidFlagPattern(start, end, animationIndex, animationCycleCount);
+            animateGenderfluidFlagPattern(start, end, animationIndex, (end - start) / FREQUENCY_MULTIPLIER);
         } else if (i == 7) {
-            animateAgenderFlagPattern(start, end, animationIndex, animationCycleCount);
+            animateAgenderFlagPattern(start, end, animationIndex, (end - start) / FREQUENCY_MULTIPLIER);
         } else if (i == 8) {
-            animateIntersexFlagPattern(start, end, animationIndex, animationCycleCount);
+            animateIntersexFlagPattern(start, end, animationIndex, (end - start) / FREQUENCY_MULTIPLIER);
         } else if (i == 9) {
-            animatePanFlagPattern(start, end, animationIndex, animationCycleCount);
+            animatePanFlagPattern(start, end, animationIndex, (end - start) / FREQUENCY_MULTIPLIER);
         } else if (i == 10) {
-            animateAsexualFlagPattern(start, end, animationIndex, animationCycleCount);
+            animateAsexualFlagPattern(start, end, animationIndex, (end - start) / FREQUENCY_MULTIPLIER);
         } else if (i == 11) {
-            animateAromanticFlagPattern(start, end, animationIndex, animationCycleCount);
+            animateAromanticFlagPattern(start, end, animationIndex, (end - start) / FREQUENCY_MULTIPLIER);
         } else if (i == 12) {
-            animateNonbinaryFlagPattern(start, end, animationIndex, animationCycleCount);
+            animateNonbinaryFlagPattern(start, end, animationIndex, (end - start) / FREQUENCY_MULTIPLIER);
         }
     }
     pixels.show();
