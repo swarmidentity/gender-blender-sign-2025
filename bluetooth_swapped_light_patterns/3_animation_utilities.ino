@@ -4,20 +4,35 @@
 
 int currentBrightness = 255;
 
+void setPixelClockwiseAdjusted(int pixel, uint32_t colorCode) {
+    for (int letterIdx = 0; letterIdx < LETTER_COUNT; ++letterIdx) {
+        int letterStart = LETTER_PIXEL_RANGES[letterIdx][0];
+        int letterEnd = LETTER_PIXEL_RANGES[letterIdx][1];
+        if (pixel >= letterStart && pixel < letterEnd) {
+            bool isClockwise = LETTER_CLOCKWISE[letterIdx];
+            int adjustedPixel = isClockwise ? (pixel - letterStart) : (letterEnd - 1 - pixel);
+            int mappedPixel = letterStart + adjustedPixel;
+            pixels.setPixelColor(mappedPixel, colorCode);
+            break;
+        }
+    }
+
+}
+
 void drawTransFlag(int startPos, int endPos) {
     int length = endPos - startPos;
     for (int i = startPos; i < endPos; i++) {
         float posNorm = float(i - startPos) / float(length);
         if (posNorm < 0.2f) {
-            pixels.setPixelColor(i, TRANS_BLUE);
+            setPixelClockwiseAdjusted(i, TRANS_BLUE);
         } else if (posNorm < 0.4f) {
-            pixels.setPixelColor(i, TRANS_PINK);
+            setPixelClockwiseAdjusted(i, TRANS_PINK);
         } else if (posNorm < 0.6f) {
-            pixels.setPixelColor(i, TRANS_WHITE);
+            setPixelClockwiseAdjusted(i, TRANS_WHITE);
         } else if (posNorm < 0.8f) {
-            pixels.setPixelColor(i, TRANS_PINK);
+            setPixelClockwiseAdjusted(i, TRANS_PINK);
         } else {
-            pixels.setPixelColor(i, TRANS_BLUE);
+            setPixelClockwiseAdjusted(i, TRANS_BLUE);
         }
     }
 }
@@ -34,9 +49,10 @@ void animateSingleColorHueSaturationValueVariation(int startPos, int endPos, boo
         uint32_t color = 0;
 
         int clockwiseAdjustedPos = animationIndex + pos;
-        if (!isClockwise) {
-            clockwiseAdjustedPos = animationIndex - pos;
-        }
+        //Attempted this algorithm, removing
+        // if (!isClockwise) {
+        //     clockwiseAdjustedPos = animationIndex - pos;
+        // }
         
         // Use animationIndex as the animation driver
         // Offset by pixel for wave
@@ -47,7 +63,7 @@ void animateSingleColorHueSaturationValueVariation(int startPos, int endPos, boo
         uint8_t saturation = baseSaturation - saturationRange/2 + (uint8_t)(saturationRange * s);
         uint8_t value = baseValue - valueRange/2 + (uint8_t)(valueRange * s);
         color = pixels.ColorHSV(hue, saturation, value);
-        pixels.setPixelColor(i, color);
+        setPixelClockwiseAdjusted(i, color);
     }
 }
 
@@ -78,10 +94,11 @@ void drawRainbowSection(int startPos, int endPos, bool isClockwise, uint16_t ani
     int sectionLength = endPos - startPos;
     for (int i = startPos; i < endPos; i++) {
         int clockwiseAdjustedPos = animationIndex + i - sectionLength/2;
-        if (!isClockwise) {
-            clockwiseAdjustedPos = animationIndex - i - sectionLength/2;
-        }
-        pixels.setPixelColor(i, pixels.ColorHSV((int)((clockwiseAdjustedPos) * (65536.0 / animationCycleCount))));
+        //Attempted this algorithm, removing
+        // if (!isClockwise) {
+        //     clockwiseAdjustedPos = animationIndex - i - sectionLength/2;
+        // }
+        setPixelClockwiseAdjusted(i, pixels.ColorHSV((int)((clockwiseAdjustedPos) * (65536.0 / animationCycleCount))));
     }
 }
 
