@@ -23,7 +23,7 @@ DNSServer dnsServer;
 WebServer server(80);
 
 
-String responseText = "No Command Yet Sent";
+String responseText = "Commands Sent:";
 
 const char* htmlForm = R"rawliteral(
 <!DOCTYPE html>
@@ -93,27 +93,41 @@ const char* htmlForm = R"rawliteral(
     </style>
 </head>
 <body>
-    <h1>GenderBlender Sign Control</h12>
-    
-        </h3>Control Codes:</h3>
+
+    <h1>
+        <font color="#00FFFF">GEN</font>
+        <font color="#FF00FF">DER</font>
+        <font color="#FFFFFF">BLE</font>
+        <font color="#FF00FF">ND</font>
+        <font color="#00FFFF">ER</font>
+    </h1>
+    <form action="/submit" method="POST">
+        <label for="usertext">Enter Code:</label>
+        <input type="text" id="usertext" name="usertext">
+        <input type="submit" value="Send To Sign">
+    </form>
+
+    <p id="response">%RESPONSE%</p>
+    <br>
+        <h2>Control Codes:</h2>
         <p> 
         <br>
-        <h4>#[HexColor]</h4>
-        <h5>Set all pixels to a single color</h5>
+        <h3>#[HexColor]</h3>
+        <h4>Set all pixels to a single color</h4>
         Examples:<br>
-        #FF0000 = Set all pixels to red<br>
-        #00FF00 = Set all pixels to green<br>
-        #0000FF = Set all pixels to blue<br>
-        #FFFF00 = Set all pixels to yellow<br>
-        #FF00FF = Set all pixels to purple<br>
-        #00FFFF = Set all pixels to cyan<br>
-        #FFFFFF = Set all pixels to white<br>
+        #FF0000 = Set all pixels to <font color="#FF0000">red</font><br>
+        #00FF00 = Set all pixels to <font color="#00FF00">green</font><br>
+        #0000FF = Set all pixels to <font color="#0000FF">blue</font><br>
+        #FFFF00 = Set all pixels to <font color="#FFFF00">yellow</font><br>
+        #FF00FF = Set all pixels to <font color="#FF00FF">purple</font><br>
+        #00FFFF = Set all pixels to <font color="#00FFFF">cyan</font><br>
+        #FFFFFF = Set all pixels to <font color="#FFFFFF">white</font><br>
         <br>
         <br>
-        <h4>R[start]-[end]-[hexColor]</h4>
-        <h5>Set a range of pixels to a hex color</h5>
+        <h3>R[start]-[end]-[hexColor]</h3>
+        <h4>Set a range of pixels to a hex color</h4>
         Example:<br>
-        R0-101-00FF00 = Set Pixels from 0 to 62 (the first letter G) to green
+        R0-62-00FF00 = Set Pixels from 0 to 62 (the first letter G) to green
         <br><br>
         Letters on the sign are from pixel ranges:
         G = 0 - 62<br>
@@ -131,12 +145,12 @@ const char* htmlForm = R"rawliteral(
         R = 684 - 737<br>
 <br>
 
-        <h4>B#</h4>
-        <h5>Set the brightness to # (0 to 255)</h5>
+        <h3>B#</h3>
+        <h4>Set the brightness to # (0 to 255)</h4>
         Ex: B255 = Full Brightness<br><br>
 
-        <h4>F#</h4>
-        <h5>Set Frequency Multiplier (1 to 1000) - higher = faster</h5>
+        <h3>F#</h3>
+        <h4>Set Frequency Multiplier (1 to 1000) - higher = faster</h4>
         Example: F1 = Frequency Multiplier 1 = Slowest<br>
         F10 = Frequency Multiplier 10 = Medium Speed<br>
         F100 = Very Fast<br>
@@ -144,8 +158,8 @@ const char* htmlForm = R"rawliteral(
         If it goes too high, the sign will bug out and pixels will set to solid colors
         <br>
         
-        <h4>M#</h4>
-        <h5>Set the current flash pattern to # (0 to 18)</h5>
+        <h3>M#</h3>
+        <h4>Set the current flash pattern to # (0 to 18)</h4>
         <br>Patterns:<br>
         M0 = SEPARATE_FLAG_PER_LETTER<br>
         M1 = RAINBOW<br>
@@ -169,12 +183,6 @@ const char* htmlForm = R"rawliteral(
         M18 = STATIC_TRANS_FLAG_IN_EACH_LETTER<br>
         <br>--Nai1s--<br>
     </p>
-    <form action="/submit" method="POST">
-        <label for="usertext">Enter text:</label>
-        <input type="text" id="usertext" name="usertext">
-        <input type="submit" value="Submit">
-    </form>
-    <p id="response">%RESPONSE%</p>
 </body>
 </html>
 )rawliteral";
@@ -202,7 +210,7 @@ void handleSubmit() {
     if (server.hasArg("usertext")) {
         String userText = server.arg("usertext");
         reactToNewWifiCommand(userText);
-        responseText = "ESP32 received: " + userText;
+        responseText = responseText + "<br>" + userText;
     } else {
         responseText = "No text received.";
     }
