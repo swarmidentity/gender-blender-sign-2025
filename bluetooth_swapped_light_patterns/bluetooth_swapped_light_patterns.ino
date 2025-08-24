@@ -23,7 +23,7 @@ DNSServer dnsServer;
 WebServer server(80);
 
 
-String responseText = "Commands Sent:";
+String responseText = "";
 
 const char* htmlForm = R"rawliteral(
 <!DOCTYPE html>
@@ -60,17 +60,9 @@ const char* htmlForm = R"rawliteral(
             font-size: 7vw;
             margin-bottom: 12px;
         }
-        .monologue {
-            white-space: pre-wrap;
-            font-size: 4vw;
-            line-height: 1.5;
-            margin-bottom: 12px;
-            text-align: left;
-        }
-        .principles {
-            font-size: 3vw;
-            color: #aaa;
-            text-align: center;
+        .scrollable-commands {
+            height:100px;
+            overflow-y:auto;
         }
         @media (min-width: 600px) {
             .container {
@@ -106,8 +98,10 @@ const char* htmlForm = R"rawliteral(
         <input type="text" id="usertext" name="usertext">
         <input type="submit" value="Send To Sign">
     </form>
-
-    <p id="response">%RESPONSE%</p>
+    <div class="scrollable-commands">
+        Commands Sent:
+        <p id="response">%RESPONSE%</p>
+    </div>
     <br>
         <h2>Control Codes:</h2>
         <p> 
@@ -129,7 +123,7 @@ const char* htmlForm = R"rawliteral(
         Example:<br>
         R0-62-00FF00 = Set Pixels from 0 to 62 (the first letter G) to green
         <br><br>
-        Letters on the sign are from pixel ranges:
+        Letters on the sign are from pixel ranges:<br>
         G = 0 - 62<br>
         E = 63 - 117<br>
         N = 118 - 175<br>
@@ -210,7 +204,7 @@ void handleSubmit() {
     if (server.hasArg("usertext")) {
         String userText = server.arg("usertext");
         reactToNewWifiCommand(userText);
-        responseText = responseText + "<br>" + userText;
+        responseText = userText + "<br>" + responseText;
     } else {
         responseText = "No text received.";
     }
