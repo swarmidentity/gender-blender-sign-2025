@@ -86,13 +86,15 @@ const char* htmlForm = R"rawliteral(
 </head>
 <body>
 
+    <marquee>
     <h1>
-        <font color="#00FFFF">GEN</font>
+        <font color="#00FFFF">   GEN</font>
         <font color="#FF00FF">DER</font>
         <font color="#FFFFFF">BLE</font>
         <font color="#FF00FF">ND</font>
-        <font color="#00FFFF">ER</font>
+        <font color="#00FFFF">ER   </font>
     </h1>
+    </marquee>
     <form action="/submit" method="POST">
         <label for="usertext">Enter Code:</label>
         <input type="text" id="usertext" name="usertext">
